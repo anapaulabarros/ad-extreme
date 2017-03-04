@@ -1,2 +1,7 @@
-# projeto-ufcg-si-1
-Projeto Final de Sistemas de Informação 1 - UFCG
+# Projeto final da disciplina Sistemas de Informação 1 
+# Universidade Federal de Campina Grande
+Equipe:
+  Ana Paula Barros
+  Bianca Sá
+  David Souza
+  Gabriela Motta
