@@ -22,8 +22,12 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
     private String senha;
     @Column
     private String role;
+    @Column
+    private float saldoDebito;
+    @Column
+    private float saldoCredito;
 
-    public Usuario() {
+	public Usuario() {
         super("default", "default", AuthorityUtils.createAuthorityList("USER"));
     }
 
@@ -35,6 +39,9 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.email = email;
         this.senha = senha;
         this.role = role;
+        //inicialização do saldo credor e disponivel para compra
+        this.saldoDebito = 0;
+        this.saldoCredito = 100;
     }
 
     public Long getId() {
@@ -77,4 +84,20 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.role = r;
     }
 
+	public float getSaldoDebito() {
+		return saldoDebito;
+	}
+
+	public void setSaldoDebito(float saldoDebito) {
+		this.saldoDebito = saldoDebito;
+	}
+
+	public float getSaldoCredito() {
+		return saldoCredito;
+	}
+
+	public void setSaldoCredito(float saldoCredito) {
+		this.saldoCredito = saldoCredito;
+	}
+    
 }

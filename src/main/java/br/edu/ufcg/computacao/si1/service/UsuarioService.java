@@ -18,4 +18,8 @@ public interface UsuarioService {
     boolean update(Usuario usuario);
 
     boolean delete(Long id);
+    
+    float getSaldoCredor(String email);
+    float getSaldoDisponivel(String email);
+    Usuario getUserById(Long id);
 }
