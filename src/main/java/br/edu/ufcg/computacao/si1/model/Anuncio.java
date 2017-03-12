@@ -15,7 +15,7 @@ public class Anuncio {
     private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
 
 
-    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

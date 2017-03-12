@@ -2,7 +2,9 @@ package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 
+import java.util.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,5 +23,7 @@ public interface AnuncioService {
     boolean update(Anuncio anuncio);
 
     boolean delete(Long id);
+    
+    List<Anuncio> findByDataDeCriacao(Date dataDeCriacao);
 
 }

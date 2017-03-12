@@ -2,11 +2,14 @@ package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -79,4 +82,13 @@ public class AnuncioServiceImpl implements AnuncioService {
         }
         return false;
     }
+
+	@Override
+	public List<Anuncio> findByDataDeCriacao(Date dataDeCriacao) {
+		List<Anuncio> listaAnuncios = new ArrayList();
+		System.out.println(dataDeCriacao);
+		anuncioRepository.findBydataDeCriacao(dataDeCriacao).forEach(listaAnuncios::add);
+		return listaAnuncios;
+	}
+    
 }
