@@ -5,6 +5,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -26,6 +28,8 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
     private float saldoDebito;
     @Column
     private float saldoCredito;
+    @Column
+    private ArrayList<Anuncio> anuncios;
 
 	public Usuario() {
         super("default", "default", AuthorityUtils.createAuthorityList("USER"));
@@ -42,6 +46,7 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         //inicialização do saldo credor e disponivel para compra
         this.saldoDebito = 0;
         this.saldoCredito = 100;
+        this.anuncios = new ArrayList<>();
     }
 
     public Long getId() {
@@ -98,6 +103,10 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
 
 	public void setSaldoCredito(float saldoCredito) {
 		this.saldoCredito = saldoCredito;
+	}
+
+	public ArrayList<Anuncio> getAnuncios() {
+		return anuncios;
 	}
     
 }

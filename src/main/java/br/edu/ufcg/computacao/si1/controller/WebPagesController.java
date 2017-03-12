@@ -53,6 +53,7 @@ public class WebPagesController {
         
         model.addAttribute("saldoCredor", usuarioService.getSaldoCredor(loginUsuario));
         model.addAttribute("saldoDisponivel", usuarioService.getSaldoDisponivel(loginUsuario));
+        model.addAttribute("anuncios", usuarioService.getAnuncios(loginUsuario));
      
         return "user/index";
     }

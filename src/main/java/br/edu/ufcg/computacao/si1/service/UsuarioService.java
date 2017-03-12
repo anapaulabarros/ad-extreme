@@ -22,4 +22,6 @@ public interface UsuarioService {
     float getSaldoCredor(String email);
     float getSaldoDisponivel(String email);
     Usuario getUserById(Long id);
+
+	Object getAnuncios(String email);
 }

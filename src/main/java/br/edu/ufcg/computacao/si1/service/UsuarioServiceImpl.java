@@ -104,5 +104,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioLogado.getSaldoCredito();
 	}
 
+	@Override
+	public Object getAnuncios(String email) {
+		Usuario usuarioLogado = usuarioRepository.findByEmail(email);
+		return usuarioLogado.getAnuncios();
+	}
+
     
 }
