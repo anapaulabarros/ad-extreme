@@ -1,0 +1,36 @@
+<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h5 class="panel-title panel-title-custom">Filtro de Anuncios</h5>
+	  </div>
+	  <div class="panel-body">
+	    <form th:action="@{/}" method="post" enctype="multipart/form-data" class="form-horizontal" id="formFiltrar">
+	    	<div class="col-lg-12">
+	    		
+	    		<div class="form-group">
+				    <label class="col-sm-2 control-label">Filtrar por:</label>
+				    <div class="col-sm-10">
+				    	<label class="radio-inline">
+						  <input type="radio" name="opcaoFiltro" value="0" /> Tipo
+						</label>
+						<label class="radio-inline">
+						  <input type="radio" name="opcaoFiltro" value="1" /> Data
+						</label>
+				    </div>
+				  </div>
+	   
+		    	<div class="input-group">
+				    <input type="text" class="form-control" placeholder="Buscar anuncio..." name="filtroAnuncio" />
+				      <span class="input-group-btn">
+				      	<input type="submit" class="btn btn-default" value="Pesquisar" />
+				      </span>
+				  </div>
+			  </div>
+	    </form>
+	    
+	    <hr />
+	    
+	    
+	    
+	    
+	  </div>
+	</div>
