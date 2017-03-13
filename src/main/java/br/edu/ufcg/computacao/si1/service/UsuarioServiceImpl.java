@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
@@ -106,11 +107,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public List<Anuncio> getAnuncios(String email) {
-		Usuario usuarioLogado = usuarioRepository.findByEmail(email);
-		List<Anuncio> listaAnuncio = new ArrayList<Anuncio>();
-		listaAnuncio = usuarioLogado.getAnuncios();
-		return listaAnuncio;
+	public Collection<Anuncio> getAnuncios(Long userId) {
+		return usuarioRepository.findById(userId).getAnuncios();
 	}
 
     

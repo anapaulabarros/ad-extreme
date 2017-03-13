@@ -50,7 +50,7 @@ public class CompanyAnuncioController {
        
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
        
-   		model.addAttribute("anuncios", anuncioService.getAnuncioByIdUser(usuarioLogado.getId()));
+   		model.addAttribute("anuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
    		return "user/listar_meus_anuncios";
    	}
     

@@ -40,13 +40,14 @@ public class Anuncio {
     @Column(name = "userId", nullable = false)
     private Long userId;
 
-    public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo) {
+    public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo, Long userId) {
     	this();
         this.titulo = titulo;
         this.dataDeCriacao = dataDeCriacao;
         this.preco = preco;
         this.nota = nota;
         this.tipo = tipo;
+        this.userId = userId;
     }
 
     public Anuncio() {
