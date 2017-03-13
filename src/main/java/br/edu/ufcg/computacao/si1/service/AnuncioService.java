@@ -17,6 +17,8 @@ public interface AnuncioService {
     Optional<Anuncio> getById(Long id);
 
     Collection<Anuncio> get(String tipo);
+    
+    Collection<Anuncio> getAnuncioByIdUser(Long idUser);
 
     Collection<Anuncio> getAll();
 

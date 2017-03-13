@@ -1,14 +1,15 @@
 package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -105,9 +106,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Object getAnuncios(String email) {
+	public List<Anuncio> getAnuncios(String email) {
 		Usuario usuarioLogado = usuarioRepository.findByEmail(email);
-		return usuarioLogado.getAnuncios();
+		List<Anuncio> listaAnuncio = new ArrayList<Anuncio>();
+		listaAnuncio = usuarioLogado.getAnuncios();
+		return listaAnuncio;
 	}
 
     

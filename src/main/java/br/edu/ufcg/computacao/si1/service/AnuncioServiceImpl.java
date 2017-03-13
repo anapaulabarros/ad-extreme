@@ -53,6 +53,15 @@ public class AnuncioServiceImpl implements AnuncioService {
                 .filter(anuncio -> anuncio.getTipo().equals(tipo))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+    
+    @Override
+    public Collection<Anuncio> getAnuncioByIdUser(Long idUser) {
+
+        /*pegamos aqui todos os anuncios que pertencem ao usuario logado,  retornando um arrayLista*/
+        return anuncioRepository.findAll().stream()
+                .filter(anuncio -> anuncio.getUserId().equals(idUser))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 
     @Override
     public Collection<Anuncio> getAll() {
@@ -86,7 +95,7 @@ public class AnuncioServiceImpl implements AnuncioService {
 	@Override
 	public List<Anuncio> findByDataDeCriacao(Date dataDeCriacao) {
 		List<Anuncio> listaAnuncios = new ArrayList();
-		System.out.println(dataDeCriacao);
+		//System.out.println(dataDeCriacao);
 		anuncioRepository.findBydataDeCriacao(dataDeCriacao).forEach(listaAnuncios::add);
 		return listaAnuncios;
 	}

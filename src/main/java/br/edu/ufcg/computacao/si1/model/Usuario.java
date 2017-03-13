@@ -108,5 +108,9 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
 	public ArrayList<Anuncio> getAnuncios() {
 		return anuncios;
 	}
+	
+	public void setAnuncios(ArrayList<Anuncio> anuncios){
+		this.anuncios = anuncios;
+	}
     
 }
