@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 @Controller
@@ -98,9 +100,10 @@ public class AnuncioController {
         anuncio.setTitulo(anuncioForm.getTitulo());
         anuncio.setPreco(anuncioForm.getPreco());
         anuncio.setTipo(anuncioForm.getTipo());
-        anuncio.setUserId(userId);
         anuncioService.create(anuncio);
-
+        
+        usuarioService.addAnuncioNaLista(userId, anuncio);
+        
         attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(REDIRECT + ROTA_USUARIO_CADASTRAR_ANUNCIO);
     }

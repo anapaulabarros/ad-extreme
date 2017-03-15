@@ -26,4 +26,6 @@ public interface UsuarioService {
     Usuario getUserById(Long id);
 
 	Collection<Anuncio> getAnuncios(Long userId);
+	
+	void addAnuncioNaLista(Long userId, Anuncio anuncio);
 }
