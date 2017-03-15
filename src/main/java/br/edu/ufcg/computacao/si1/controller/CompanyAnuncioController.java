@@ -91,9 +91,10 @@ public class CompanyAnuncioController {
         anuncio.setTitulo(anuncioForm.getTitulo());
         anuncio.setPreco(anuncioForm.getPreco());
         anuncio.setTipo(anuncioForm.getTipo());
-        anuncio.setUserId(userId);
 
         anuncioService.create(anuncio);
+        
+        usuarioService.addAnuncioNaLista(userId, anuncio);
 
         attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(REDIRECT + ROTA_COMPANY_CADASTRAR_ANUNCIO);

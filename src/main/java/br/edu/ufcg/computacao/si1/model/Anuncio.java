@@ -36,18 +36,14 @@ public class Anuncio {
 
     @Column(name = "tipo", nullable = false)
     private String tipo;
-    
-    @Column(name = "userId", nullable = false)
-    private Long userId;
 
-    public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo, Long userId) {
+    public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo) {
     	this();
         this.titulo = titulo;
         this.dataDeCriacao = dataDeCriacao;
         this.preco = preco;
         this.nota = nota;
         this.tipo = tipo;
-        this.userId = userId;
     }
 
     public Anuncio() {
@@ -56,7 +52,6 @@ public class Anuncio {
         preco = 0;
         nota = "";
         tipo = "";
-        userId = 0L;
     }
 
     /**
@@ -113,14 +108,6 @@ public class Anuncio {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
-    public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
 
 	@Override
     public boolean equals(Object o) {

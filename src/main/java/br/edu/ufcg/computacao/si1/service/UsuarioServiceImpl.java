@@ -120,4 +120,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public Collection<Anuncio> getAnuncios(Long userId) {
 		return usuarioRepository.findById(userId).getAnuncios();
 	}
+
+	@Override
+	public void addAnuncioNaLista(Long userId, Anuncio anuncio) {
+		Usuario usuarioLogado = usuarioRepository.findById(userId);
+		ArrayList<Anuncio> novaLista = usuarioLogado.getAnuncios();
+        novaLista.add(anuncio);
+        usuarioLogado.setAnuncios(novaLista);
+	}
 }
