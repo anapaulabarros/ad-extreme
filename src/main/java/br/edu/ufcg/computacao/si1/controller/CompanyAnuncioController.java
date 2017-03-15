@@ -23,7 +23,20 @@ import javax.validation.Valid;
 
 @Controller
 public class CompanyAnuncioController {
-
+	private static final String TIPOS = "tipos";
+	private static final String ANUNCIOS = "anuncios";
+	private static final String REDIRECT = "redirect:";
+	private static final String MENSAGEM = "mensagem";
+	
+	private static final String MENSAGEM_ANUNCIO_CADASTRO_SUCESSO = "Anúncio cadastrado com sucesso!";
+	private static final String CADASTRAR_ANUNCIO = "company/cadastrar_anuncio";
+	private static final String LISTAR_ANUNCIOS = "company/listar_anuncios";
+	private static final String LISTAR_MEUS_ANUNCIOS = "user/listar_meus_anuncios";
+	
+	private static final String ROTA_COMPANY_CADASTRAR_ANUNCIO = "/company/cadastrar/anuncio";
+	private static final String ROTA_COMPANY_LISTAR_ANUNCIOS = "/company/listar/anuncios";
+	private static final String ROTA_COMPANY_LISTAR_MEUS_ANUNCIOS = "/company/listar/meus-anuncios";
+	
     @Autowired
     private AnuncioServiceImpl anuncioService;
     
@@ -33,39 +46,39 @@ public class CompanyAnuncioController {
     @Autowired
 	private UsuarioService usuarioService;
 
-    @RequestMapping(value = "/company/cadastrar/anuncio", method = RequestMethod.GET)
+    @RequestMapping(value = ROTA_COMPANY_CADASTRAR_ANUNCIO, method = RequestMethod.GET)
     public ModelAndView getPageCadastarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
         
-        model.addObject("tipos", anuncioForm.getTipos());
-        model.setViewName("company/cadastrar_anuncio");
+        model.addObject(TIPOS, anuncioForm.getTipos());
+        model.setViewName(CADASTRAR_ANUNCIO);
 
         return model;
     }
  
-    @RequestMapping(value = "/company/listar/meus-anuncios", method = RequestMethod.GET)
+    @RequestMapping(value = ROTA_COMPANY_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
    	public String getPageListarMeusAnuncios(Model model){
        	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
        
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
        
-   		model.addAttribute("anuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
-   		return "user/listar_meus_anuncios";
+   		model.addAttribute(ANUNCIOS, usuarioService.getAnuncios(usuarioLogado.getId()));
+   		return LISTAR_MEUS_ANUNCIOS;
    	}
     
-    @RequestMapping(value = "/company/listar/anuncios", method = RequestMethod.GET)
+    @RequestMapping(value = ROTA_COMPANY_LISTAR_ANUNCIOS, method = RequestMethod.GET)
     public ModelAndView getPageListarAnuncios(){
         ModelAndView model = new ModelAndView();
 
-        model.addObject("anuncios", anuncioService.getAnuncioRepository().findAll());
+        model.addObject(ANUNCIOS, anuncioService.getAnuncioRepository().findAll());
 
-        model.setViewName("company/listar_anuncios");
+        model.setViewName(LISTAR_ANUNCIOS);
 
         return model;
     }
 
-    @RequestMapping(value = "/company/cadastrar/anuncio", method = RequestMethod.POST)
+    @RequestMapping(value = ROTA_COMPANY_CADASTRAR_ANUNCIO, method = RequestMethod.POST)
     public ModelAndView cadastroAnuncio(@Valid AnuncioForm anuncioForm, BindingResult result, RedirectAttributes attributes){
         if(result.hasErrors()){
             return getPageCadastarAnuncio(anuncioForm);
@@ -82,8 +95,8 @@ public class CompanyAnuncioController {
 
         anuncioService.create(anuncio);
 
-        attributes.addFlashAttribute("mensagem", "Anúncio cadastrado com sucesso!");
-        return new ModelAndView("redirect:/company/cadastrar/anuncio");
+        attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
+        return new ModelAndView(REDIRECT + ROTA_COMPANY_CADASTRAR_ANUNCIO);
     }
 
 

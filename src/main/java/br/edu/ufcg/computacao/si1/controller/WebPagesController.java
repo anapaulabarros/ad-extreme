@@ -61,7 +61,7 @@ public class WebPagesController {
     public String filtroAnuncio(@RequestParam int opcaoFiltro, @RequestParam String filtroAnuncio,Model model){
     	
     	if(opcaoFiltro == 0){
-    		model.addAttribute("anunciolistaFiltro", anuncioService.get(filtroAnuncio.toLowerCase()));
+    		model.addAttribute("anunciolistaFiltro", anuncioService.getAnunciosByType(filtroAnuncio.toLowerCase()));
     	}
     	if(opcaoFiltro == 1){
     		SimpleDateFormat dataFormatada  = new SimpleDateFormat("yyyy-MM-dd");    		

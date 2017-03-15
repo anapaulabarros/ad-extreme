@@ -14,17 +14,17 @@ public interface AnuncioService {
 
     Anuncio create(Anuncio anuncio);
 
-    Optional<Anuncio> getById(Long id);
+    Optional<Anuncio> getAnuncioById(Long id);
 
-    Collection<Anuncio> get(String tipo);
+    Collection<Anuncio> getAnunciosByType(String tipo);
     
-    Collection<Anuncio> getAnuncioByIdUser(Long idUser);
+    Collection<Anuncio> getAnunciosByIdUser(Long idUser);
 
-    Collection<Anuncio> getAll();
+    Collection<Anuncio> getAllAnuncios();
 
-    boolean update(Anuncio anuncio);
+    boolean updateAnuncio(Anuncio anuncio);
 
-    boolean delete(Long id);
+    boolean deleteAnuncio(Long id);
     
     List<Anuncio> findByDataDeCriacao(Date dataDeCriacao);
 

@@ -46,7 +46,7 @@ public class AnuncioServiceTest {
     @Test
     public void testInicializacao() {
         assertNotNull("AnuncioService não foi instânciado corretamente", anuncioService);
-        assertTrue("AnuncioService não deveria conter nenhum item", anuncioService.getAll().isEmpty());
+        assertTrue("AnuncioService não deveria conter nenhum item", anuncioService.getAllAnuncios().isEmpty());
     }
 
 
@@ -68,9 +68,9 @@ public class AnuncioServiceTest {
         assertEquals(anuncio2FromDB, anuncio2);
         assertEquals(anuncio3FromDB, anuncio3);
 
-        assertEquals(anuncio1FromDB, anuncioService.getById(anuncio1FromDB.get_id()).get());
-        assertEquals(anuncio2FromDB, anuncioService.getById(anuncio2FromDB.get_id()).get());
-        assertEquals(anuncio3FromDB, anuncioService.getById(anuncio3FromDB.get_id()).get());
+        assertEquals(anuncio1FromDB, anuncioService.getAnuncioById(anuncio1FromDB.get_id()).get());
+        assertEquals(anuncio2FromDB, anuncioService.getAnuncioById(anuncio2FromDB.get_id()).get());
+        assertEquals(anuncio3FromDB, anuncioService.getAnuncioById(anuncio3FromDB.get_id()).get());
     }
 
     @Test
@@ -111,11 +111,11 @@ public class AnuncioServiceTest {
         assertNotNull(anuncioImovel);
         assertNotNull(anuncioEmprego);
 
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAll().size());
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAllAnuncios().size());
 
-        assertTrue(anuncioService.getAll().contains(anuncioMovel));
-        assertTrue(anuncioService.getAll().contains(anuncioImovel));
-        assertTrue(anuncioService.getAll().contains(anuncioEmprego));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioMovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioImovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioEmprego));
 
     }
 
@@ -127,37 +127,37 @@ public class AnuncioServiceTest {
         Anuncio anuncioImovel = anuncioService.create(anuncio2);
         Anuncio anuncioEmprego = anuncioService.create(anuncio3);
 
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAll().size());
-        assertTrue(anuncioService.getAll().contains(anuncioMovel));
-        assertTrue(anuncioService.getAll().contains(anuncioImovel));
-        assertTrue(anuncioService.getAll().contains(anuncioEmprego));
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAllAnuncios().size());
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioMovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioImovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioEmprego));
 
-        assertTrue(anuncioService.delete(anuncioMovel.get_id()));
+        assertTrue(anuncioService.deleteAnuncio(anuncioMovel.get_id()));
         QTDE_ANUNCIOS_ESPERADA-=1;
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAll().size());
-        assertFalse(anuncioService.getAll().contains(anuncioMovel));
-        assertTrue(anuncioService.getAll().contains(anuncioImovel));
-        assertTrue(anuncioService.getAll().contains(anuncioEmprego));
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAllAnuncios().size());
+        assertFalse(anuncioService.getAllAnuncios().contains(anuncioMovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioImovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioEmprego));
 
-        assertTrue(anuncioService.delete(anuncioImovel.get_id()));
+        assertTrue(anuncioService.deleteAnuncio(anuncioImovel.get_id()));
         QTDE_ANUNCIOS_ESPERADA-=1;
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAll().size());
-        assertFalse(anuncioService.getAll().contains(anuncioMovel));
-        assertFalse(anuncioService.getAll().contains(anuncioImovel));
-        assertTrue(anuncioService.getAll().contains(anuncioEmprego));
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAllAnuncios().size());
+        assertFalse(anuncioService.getAllAnuncios().contains(anuncioMovel));
+        assertFalse(anuncioService.getAllAnuncios().contains(anuncioImovel));
+        assertTrue(anuncioService.getAllAnuncios().contains(anuncioEmprego));
 
-        assertTrue(anuncioService.delete(anuncioEmprego.get_id()));
+        assertTrue(anuncioService.deleteAnuncio(anuncioEmprego.get_id()));
         QTDE_ANUNCIOS_ESPERADA-=1;
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAll().size());
-        assertFalse(anuncioService.getAll().contains(anuncioMovel));
-        assertFalse(anuncioService.getAll().contains(anuncioImovel));
-        assertFalse(anuncioService.getAll().contains(anuncioEmprego));
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getAllAnuncios().size());
+        assertFalse(anuncioService.getAllAnuncios().contains(anuncioMovel));
+        assertFalse(anuncioService.getAllAnuncios().contains(anuncioImovel));
+        assertFalse(anuncioService.getAllAnuncios().contains(anuncioEmprego));
 
         assertEquals(0, QTDE_ANUNCIOS_ESPERADA);
 
-        assertFalse(anuncioService.delete(anuncioMovel.get_id()));
-        assertFalse(anuncioService.delete(anuncioImovel.get_id()));
-        assertFalse(anuncioService.delete(anuncioEmprego.get_id()));
+        assertFalse(anuncioService.deleteAnuncio(anuncioMovel.get_id()));
+        assertFalse(anuncioService.deleteAnuncio(anuncioImovel.get_id()));
+        assertFalse(anuncioService.deleteAnuncio(anuncioEmprego.get_id()));
     }
 
     @Test
@@ -178,39 +178,39 @@ public class AnuncioServiceTest {
         anuncioImovel.setTitulo(anuncioImovel.getTitulo()+SUFIXO);
         anuncioEmprego.setTitulo(anuncioEmprego.getTitulo()+SUFIXO);
 
-        assertTrue(anuncioService.update(anuncioMovel));
-        assertTrue(anuncioService.update(anuncioImovel));
-        assertTrue(anuncioService.update(anuncioEmprego));
+        assertTrue(anuncioService.updateAnuncio(anuncioMovel));
+        assertTrue(anuncioService.updateAnuncio(anuncioImovel));
+        assertTrue(anuncioService.updateAnuncio(anuncioEmprego));
 
-        assertEquals(anuncioMovel.getTitulo(), anuncioService.getById(anuncioMovel.get_id()).get().getTitulo());
-        assertEquals(anuncioImovel.getTitulo(), anuncioService.getById(anuncioImovel.get_id()).get().getTitulo());
-        assertEquals(anuncioEmprego.getTitulo(), anuncioService.getById(anuncioEmprego.get_id()).get().getTitulo());
+        assertEquals(anuncioMovel.getTitulo(), anuncioService.getAnuncioById(anuncioMovel.get_id()).get().getTitulo());
+        assertEquals(anuncioImovel.getTitulo(), anuncioService.getAnuncioById(anuncioImovel.get_id()).get().getTitulo());
+        assertEquals(anuncioEmprego.getTitulo(), anuncioService.getAnuncioById(anuncioEmprego.get_id()).get().getTitulo());
 
         //Update preço
         anuncioMovel.setPreco(anuncioMovel.getPreco()*2);
         anuncioImovel.setPreco(anuncioImovel.getPreco()*2);
         anuncioEmprego.setPreco(anuncioEmprego.getPreco()*2);
 
-        assertTrue(anuncioService.update(anuncioMovel));
-        assertTrue(anuncioService.update(anuncioImovel));
-        assertTrue(anuncioService.update(anuncioEmprego));
+        assertTrue(anuncioService.updateAnuncio(anuncioMovel));
+        assertTrue(anuncioService.updateAnuncio(anuncioImovel));
+        assertTrue(anuncioService.updateAnuncio(anuncioEmprego));
 
-        assertEquals(anuncioMovel.getPreco(), anuncioService.getById(anuncioMovel.get_id()).get().getPreco());
-        assertEquals(anuncioImovel.getPreco(), anuncioService.getById(anuncioImovel.get_id()).get().getPreco());
-        assertEquals(anuncioEmprego.getPreco(), anuncioService.getById(anuncioEmprego.get_id()).get().getPreco());
+        assertEquals(anuncioMovel.getPreco(), anuncioService.getAnuncioById(anuncioMovel.get_id()).get().getPreco());
+        assertEquals(anuncioImovel.getPreco(), anuncioService.getAnuncioById(anuncioImovel.get_id()).get().getPreco());
+        assertEquals(anuncioEmprego.getPreco(), anuncioService.getAnuncioById(anuncioEmprego.get_id()).get().getPreco());
 
         //Update nota
         anuncioMovel.setNota(Notas.notas[4]);
         anuncioImovel.setNota(Notas.notas[4]);
         anuncioEmprego.setNota(Notas.notas[4]);
 
-        assertTrue(anuncioService.update(anuncioMovel));
-        assertTrue(anuncioService.update(anuncioImovel));
-        assertTrue(anuncioService.update(anuncioEmprego));
+        assertTrue(anuncioService.updateAnuncio(anuncioMovel));
+        assertTrue(anuncioService.updateAnuncio(anuncioImovel));
+        assertTrue(anuncioService.updateAnuncio(anuncioEmprego));
 
-        assertEquals(Notas.notas[4], anuncioService.getById(anuncioMovel.get_id()).get().getNota());
-        assertEquals(Notas.notas[4], anuncioService.getById(anuncioImovel.get_id()).get().getNota());
-        assertEquals(Notas.notas[4], anuncioService.getById(anuncioEmprego.get_id()).get().getNota());
+        assertEquals(Notas.notas[4], anuncioService.getAnuncioById(anuncioMovel.get_id()).get().getNota());
+        assertEquals(Notas.notas[4], anuncioService.getAnuncioById(anuncioImovel.get_id()).get().getNota());
+        assertEquals(Notas.notas[4], anuncioService.getAnuncioById(anuncioEmprego.get_id()).get().getNota());
     }
 
 }

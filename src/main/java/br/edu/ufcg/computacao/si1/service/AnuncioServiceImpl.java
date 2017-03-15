@@ -38,14 +38,16 @@ public class AnuncioServiceImpl implements AnuncioService {
         return anuncioRepository.save(anuncio);
     }
 
+    //TODO documentar alteraçao de nome de método
+    
     @Override
-    public Optional<Anuncio> getById(Long id) {
+    public Optional<Anuncio> getAnuncioById(Long id) {
         /*aqui recuperamos o anuncio pelo seu id*/
         return Optional.ofNullable(anuncioRepository.findOne(id));
     }
 
     @Override
-    public Collection<Anuncio> get(String tipo) {
+    public Collection<Anuncio> getAnunciosByType(String tipo) {
 
         /*pegamos aqui todos os anuncios, mas retornamos os anuncios por tipo
         * filtrando o tipo, pelo equals, retornando um arrayLista*/
@@ -53,25 +55,26 @@ public class AnuncioServiceImpl implements AnuncioService {
                 .filter(anuncio -> anuncio.getTipo().equals(tipo))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-    
+         
     @Override
-    public Collection<Anuncio> getAnuncioByIdUser(Long idUser) {
+    public Collection<Anuncio> getAnunciosByIdUser(Long idUser) {
 
         /*pegamos aqui todos os anuncios que pertencem ao usuario logado,  retornando um arrayLista*/
         return anuncioRepository.findAll().stream()
                 .filter(anuncio -> anuncio.getUserId().equals(idUser))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
+    
     @Override
-    public Collection<Anuncio> getAll() {
+    public Collection<Anuncio> getAllAnuncios() {
         /*aqui retornamos todos os anuncios, sem distincao*/
 
         return anuncioRepository.findAll();
     }
 
+  
     @Override
-    public boolean update(Anuncio anuncio) {
+    public boolean updateAnuncio(Anuncio anuncio) {
         /*a atualizacao do anuncio eh feita apenas se o anuncio ja existir*/
         if (anuncioRepository.exists(anuncio.get_id())) {
             anuncioRepository.save(anuncio);
@@ -81,7 +84,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteAnuncio(Long id) {
         /*aqui se apaga o anuncio se ele existir*/
 
 

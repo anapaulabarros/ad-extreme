@@ -5,19 +5,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ErrorPagesController {
+	private static final String ERROR = "error";
+	private static final String QUINHENTOS = "/500";
+	private static final String QUATROCENTO_TRES = "/403";
+	private static final String QUATROCENTO_QUATRO = "/404";
 
-    @RequestMapping("/404")
+    @RequestMapping(QUATROCENTO_QUATRO)
     public String notFound() {
-        return "error/404";
+        return ERROR + QUATROCENTO_QUATRO;
     }
 
-    @RequestMapping("/403")
+    @RequestMapping(QUATROCENTO_TRES)
     public String forbidden() {
-        return "error/403";
+        return ERROR + QUATROCENTO_TRES;
     }
 
-    @RequestMapping("/500")
+    @RequestMapping(QUINHENTOS)
     public String internalServerError() {
-        return "error/500";
+        return ERROR + QUINHENTOS;
     }
 }

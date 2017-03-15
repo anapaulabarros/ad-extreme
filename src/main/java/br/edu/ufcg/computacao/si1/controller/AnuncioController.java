@@ -8,6 +8,7 @@ import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
 import br.edu.ufcg.computacao.si1.service.UsuarioService;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,22 @@ import javax.validation.Valid;
 
 @Controller
 public class AnuncioController {
+	
+	private static final String TIPOS = "tipos";
+	private static final String ANUNCIOS = "anuncios";
+	private static final String MENSAGEM = "mensagem";
+	private static final String REDIRECT = "redirect:";
+	
+	private static final String MENSAGEM_ANUNCIO_CADASTRO_SUCESSO = "Anúncio cadastrado com sucesso!";
+	private static final String CADASTRAR_ANUNCIO = "user/cadastrar_anuncio";
+	private static final String LISTAR_ANUNCIO = "user/listar_anuncios";
+	private static final String LISTAR_MEUS_ANUNCIOS = "user/listar_meus_anuncios";
+	
+	private static final String ROTA_USUARIO_CADASTRAR_ANUNCIO = "/user/cadastrar/anuncio";
+	private static final String ROTA_USUARIO_LISTAR_ANUNCIOS = "/user/listar/anuncios";
+	private static final String ROTA_USUARIO_LISTAR_MEUS_ANUNCIOS = "/user/listar/meus-anuncios";
 
+	
     @Autowired
     private AnuncioServiceImpl anuncioService;
 
@@ -36,39 +52,40 @@ public class AnuncioController {
     @Autowired
 	UsuarioService usuarioService;
 
-    @RequestMapping(value = "/user/cadastrar/anuncio", method = RequestMethod.GET)
+    
+    @RequestMapping(value = ROTA_USUARIO_CADASTRAR_ANUNCIO, method = RequestMethod.GET)
     public ModelAndView getPageCadastrarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
 
-        model.addObject("tipos", anuncioForm.getTipos());
-        model.setViewName("user/cadastrar_anuncio");
+        model.addObject(TIPOS, anuncioForm.getTipos());
+        model.setViewName(CADASTRAR_ANUNCIO);
 
         return model;
     }
 
-    @RequestMapping(value = "/user/listar/anuncios", method = RequestMethod.GET)
+    @RequestMapping(value = ROTA_USUARIO_LISTAR_ANUNCIOS, method = RequestMethod.GET)
     public ModelAndView getPageListarAnuncios(){
         ModelAndView model = new ModelAndView();
 
-        model.addObject("anuncios", anuncioRep.findAll());
+        model.addObject(ANUNCIOS, anuncioRep.findAll());
 
-        model.setViewName("user/listar_anuncios");
+        model.setViewName(LISTAR_ANUNCIO);
 
         return model;
     }
  
-    @RequestMapping(value = "/user/listar/meus-anuncios", method = RequestMethod.GET)
+    @RequestMapping(value = ROTA_USUARIO_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
 	public String getPageListarMeusAnuncios(Model model){
     	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
         
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
-		model.addAttribute("anuncios",  usuarioService.getAnuncios(usuarioLogado.getId()));
-		return "user/listar_meus_anuncios";
+		model.addAttribute(ANUNCIOS,  usuarioService.getAnuncios(usuarioLogado.getId()));
+		return LISTAR_MEUS_ANUNCIOS;
 	}
     
-    @RequestMapping(value = "/user/cadastrar/anuncio", method = RequestMethod.POST)
+    @RequestMapping(value = ROTA_USUARIO_CADASTRAR_ANUNCIO, method = RequestMethod.POST)
     public ModelAndView cadastroAnuncio(@Valid AnuncioForm anuncioForm, BindingResult result, RedirectAttributes attributes){
         if(result.hasErrors()){
             return getPageCadastrarAnuncio(anuncioForm);
@@ -84,8 +101,8 @@ public class AnuncioController {
         anuncio.setUserId(userId);
         anuncioService.create(anuncio);
 
-        attributes.addFlashAttribute("mensagem", "Anúncio cadastrado com sucesso!");
-        return new ModelAndView("redirect:/user/cadastrar/anuncio");
+        attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
+        return new ModelAndView(REDIRECT + ROTA_USUARIO_CADASTRAR_ANUNCIO);
     }
 
 

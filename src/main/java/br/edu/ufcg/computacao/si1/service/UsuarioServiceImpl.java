@@ -4,6 +4,9 @@ import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,32 +20,39 @@ import java.util.stream.Collectors;
 public class UsuarioServiceImpl implements UsuarioService{
 
     private UsuarioRepository usuarioRepository;
+    private final String USER = "USER";
+    private final String COMPANY = "COMPANY";
+    
+    protected Log logger = LogFactory.getLog(this.getClass());
+    private final String STATUS_CRIADO_LOG = "estah sendo criado";
+    private final String STATUS_RETORNADO_LOG = "estah sendo retornado";
+    private final String STATUS_ATUALIZADO_LOG = "estah sendo atualizado";
 
     @Autowired
     public void setUsuarioRepository(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
+    //TODO criar usuario antes e depois setar o R
     @Override
     public Usuario create(UsuarioForm usuarioForm) {
-
         Usuario usuario=null;
 
         switch (usuarioForm.getRole()){
             case 1:
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
-                        usuarioForm.getSenha(), "USER");
+                        usuarioForm.getSenha(), USER);
                 break;
             case 2:
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
-                        usuarioForm.getSenha(), "COMPANY");
+                        usuarioForm.getSenha(), COMPANY);
 
                 //new BCryptPasswordEncoder().encode(usuarioForm.getSenha()), "COMPANY");
-                usuario.setR("COMPANY");
+                usuario.setR(COMPANY);
                 break;
         }
 
-        System.out.println(usuario + "estah sendo criado");
+        logger.debug(usuario + STATUS_CRIADO_LOG);
         return usuarioRepository.save(usuario);
     }
 
@@ -53,7 +63,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public Optional<Usuario> getByEmail(String email) {
-        System.out.println(email + "estah sendo retornado");
+    	logger.debug(email + STATUS_RETORNADO_LOG);
         return Optional.ofNullable(usuarioRepository.findByEmail(email));
     }
 
@@ -64,8 +74,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public boolean update(Usuario usuario) {
-        System.out.println(usuario + "estah sendo atualizado");
-
+    	logger.debug(usuario + STATUS_ATUALIZADO_LOG);
+  
         if (usuarioRepository.exists(usuario.getId())) {
             usuarioRepository.save(usuario);
             return true;
@@ -105,11 +115,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		Usuario usuarioLogado = usuarioRepository.findByEmail(email);
 		return usuarioLogado.getSaldoCredito();
 	}
-
+	
 	@Override
 	public Collection<Anuncio> getAnuncios(Long userId) {
 		return usuarioRepository.findById(userId).getAnuncios();
 	}
-
-    
 }
