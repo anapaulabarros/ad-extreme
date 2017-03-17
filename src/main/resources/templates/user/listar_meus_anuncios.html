@@ -10,10 +10,10 @@
     <div class="col-md-offset-2 col-md-8">
         <h1>Meus Anúncios</h1>
         <!-- Text input-->
-        <div th:if="${anuncios == null}">
+        <div th:if="${listaAnuncios == null}">
             <h4>Nenhum Anúncio cadastrado</h4>
         </div>
-        <div th:if="${anuncios != null}" class="table-responsive">
+        <div th:if="${listaAnuncios != null}" class="table-responsive">
             <table style="width:100%" class="table table-bordered">
             	<thead>
 	                <tr>
@@ -25,10 +25,10 @@
 				</thead>
 				<tbody>
 	               
-                    <tr th:each="anuncio : ${anuncios}">
+                    <tr th:each="anuncio : ${listaAnuncios}">
                         <td th:text="${anuncio.titulo}"></td>
                         <td th:text="${#strings.toUpperCase(anuncio.tipo)}"> - </td>
-                        <td th:text="${anuncio.dataDeCriacao}"> - </td>
+                        <td th:text="${#dates.format(anuncio.dataDeCriacao, 'dd/MM/yyyy')}"> - </td>
                         <td align="center" th:text="${'R$ ' + #numbers.formatDecimal(anuncio.preco, 0, 'COMMA', 2, 'POINT')}">0.00</td>
                     </tr>
                   </tbody>

@@ -8,7 +8,6 @@ import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
 import br.edu.ufcg.computacao.si1.service.UsuarioService;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 
 import javax.validation.Valid;
 
@@ -78,12 +76,14 @@ public class AnuncioController {
  
     @RequestMapping(value = ROTA_USUARIO_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
 	public String getPageListarMeusAnuncios(Model model){
+    	//Melhorar esse Desing - codigo repetido em vários trechos do projeto: pega o usuario logado
     	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
-        
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
-		model.addAttribute(ANUNCIOS,  usuarioService.getAnuncios(usuarioLogado.getId()));
+		model.addAttribute("listaAnuncios",  usuarioLogado.getAnuncios());
+		model.addAttribute("saldoCredor", usuarioService.getSaldoCredor(loginUsuario));
+	    model.addAttribute("saldoDisponivel", usuarioService.getSaldoDisponivel(loginUsuario));
 		return LISTAR_MEUS_ANUNCIOS;
 	}
     
@@ -93,16 +93,12 @@ public class AnuncioController {
             return getPageCadastrarAnuncio(anuncioForm);
         }
         
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = usuarioRep.findByEmail(user.getName()).getId();
-    
         Anuncio anuncio = new Anuncio();
         anuncio.setTitulo(anuncioForm.getTitulo());
         anuncio.setPreco(anuncioForm.getPreco());
         anuncio.setTipo(anuncioForm.getTipo());
-        anuncioService.create(anuncio);
         
-        usuarioService.addAnuncioNaLista(userId, anuncio);
+        anuncioService.create(anuncio);
         
         attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(REDIRECT + ROTA_USUARIO_CADASTRAR_ANUNCIO);

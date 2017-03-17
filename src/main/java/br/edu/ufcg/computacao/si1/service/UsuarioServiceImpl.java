@@ -3,23 +3,26 @@ package br.edu.ufcg.computacao.si1.service;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
+import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ls.LSInput;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
 
     private UsuarioRepository usuarioRepository;
+    private UsuarioServiceImpl usuarioService;
     private final String USER = "USER";
     private final String COMPANY = "COMPANY";
     
@@ -27,7 +30,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     private final String STATUS_CRIADO_LOG = "estah sendo criado";
     private final String STATUS_RETORNADO_LOG = "estah sendo retornado";
     private final String STATUS_ATUALIZADO_LOG = "estah sendo atualizado";
-
+    
     @Autowired
     public void setUsuarioRepository(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -48,7 +51,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                         usuarioForm.getSenha(), COMPANY);
 
                 //new BCryptPasswordEncoder().encode(usuarioForm.getSenha()), "COMPANY");
-                usuario.setR(COMPANY);
+                usuario.setRole(COMPANY);
                 break;
         }
 
@@ -117,15 +120,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 	
 	@Override
-	public Collection<Anuncio> getAnuncios(Long userId) {
-		return usuarioRepository.findById(userId).getAnuncios();
+	public List<Anuncio> getAnuncios(Long userId) {
+		List listaAnuncios = new ArrayList();
+		usuarioRepository.findByAnuncios(userId).forEach(listaAnuncios::add);
+		return listaAnuncios;
 	}
-
-	@Override
-	public void addAnuncioNaLista(Long userId, Anuncio anuncio) {
-		Usuario usuarioLogado = usuarioRepository.findById(userId);
-		ArrayList<Anuncio> novaLista = usuarioLogado.getAnuncios();
-        novaLista.add(anuncio);
-        usuarioLogado.setAnuncios(novaLista);
-	}
+	
+	
 }

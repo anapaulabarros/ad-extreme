@@ -42,7 +42,6 @@
                     <ul class="dropdown-menu">
                         <li><center>Credor: <strong>R$ <span th:text="${saldoCredor}" /></strong></center></li>
                         <li><center>Disponível: <strong>R$ <span th:text="${saldoDisponivel}" /></strong></center></li>
-                        <li><a href="#">Acessar área financeira</a></li>
                     </ul>
                 </li>
             </ul>
@@ -115,9 +114,9 @@
 				</thead>	
 				<tbody>
 					<tr th:each="anuncio : ${anunciolistaFiltro}">
-						<td th:text="${anuncio._id}"></td>
+						<td th:text="${anuncio.Id}"></td>
 						<td th:text="${anuncio.titulo}"></td>
-						<td th:text="${anuncio.dataDeCriacao}"></td>
+						<td th:text="${#dates.format(anuncio.dataDeCriacao, 'dd/MM/yyyy')}"></td>
 						<td th:text="${anuncio.preco}"></td>
 						<td th:text="${anuncio.nota}"></td>
 						<td th:text="${anuncio.tipo}"></td>

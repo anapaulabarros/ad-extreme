@@ -1,35 +1,32 @@
 package br.edu.ufcg.computacao.si1.model;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 
 @Entity(name = "Usuario")
 @Table(name = "tb_usuario")
 public class Usuario extends org.springframework.security.core.userdetails.User{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   
+	@Id
+	@GeneratedValue(generator="STORE_SEQ")
+	@SequenceGenerator(name="STORE_SEQ",sequenceName="STORE_SEQ", allocationSize=1)
     private Long id;
-    @Column
+	
+   
     private String nome;
+    
     @Column(unique = true)
     private String email;
-    @Column
     private String senha;
-    @Column
     private String role;
-    @Column
     private float saldoDebito;
-    @Column
     private float saldoCredito;
-    @Column
-    private ArrayList<Anuncio> anuncios;
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Anuncio> anuncios;
 
 	public Usuario() {
         super("default", "default", AuthorityUtils.createAuthorityList("USER"));
@@ -46,7 +43,7 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         //inicialização do saldo credor e disponivel para compra
         this.saldoDebito = 0;
         this.saldoCredito = 100;
-        this.anuncios = new ArrayList<>();
+        this.anuncios = new ArrayList<Anuncio>();
     }
 
     public Long getId() {
@@ -57,11 +54,11 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.id = id;
     }
 
-    public String getN() {
+    public String getNome() {
         return nome;
     }
 
-    public void setN(String n) {
+    public void setNome(String n) {
         this.nome = n;
     }
 
@@ -81,11 +78,11 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.senha = senha;
     }
 
-    public String getR() {
+    public String getRole() {
         return role;
     }
 
-    public void setR(String r) {
+    public void setRole(String r) {
         this.role = r;
     }
 
@@ -105,16 +102,12 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
 		this.saldoCredito = saldoCredito;
 	}
 
-	public ArrayList<Anuncio> getAnuncios() {
+	public List<Anuncio> getAnuncios() {
 		return anuncios;
 	}
 	
-	public void setAnuncios(ArrayList<Anuncio> anuncios){
+	public void setAnuncios(List<Anuncio> anuncios){
 		this.anuncios = anuncios;
-	}
-
-	public void addAnuncio(Anuncio anuncio) {
-		this.anuncios.add(anuncio);
 	}
     
 }

@@ -85,7 +85,8 @@ public class CompanyAnuncioController {
         }
         
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = usuarioRep.findByEmail(user.getName()).getId();
+        Usuario usuario = usuarioRep.findByEmail(user.getName());
+        
 
         Anuncio anuncio = new Anuncio();
         anuncio.setTitulo(anuncioForm.getTitulo());
@@ -94,7 +95,7 @@ public class CompanyAnuncioController {
 
         anuncioService.create(anuncio);
         
-        usuarioService.addAnuncioNaLista(userId, anuncio);
+       // usuarioService.addAnuncioNaLista(usuario, anuncio);
 
         attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(REDIRECT + ROTA_COMPANY_CADASTRAR_ANUNCIO);

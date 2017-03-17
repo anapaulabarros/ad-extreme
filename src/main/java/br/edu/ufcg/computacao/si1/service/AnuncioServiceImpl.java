@@ -1,9 +1,13 @@
 package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
+import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,6 +25,11 @@ public class AnuncioServiceImpl implements AnuncioService {
     //TODO add validity checks
 
     private AnuncioRepository anuncioRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     @Autowired
     public AnuncioServiceImpl(AnuncioRepository anuncioRepository) {
@@ -35,10 +44,18 @@ public class AnuncioServiceImpl implements AnuncioService {
     @Override
     public Anuncio create(Anuncio anuncio) {
         /*aqui salvamos o anuncio recem criado no repositorio jpa*/
+    	
+    	//Melhorar esse Desing - aqui ele atualiza a lista de anuncios do usuario e estabelece a relacao entre Anuncio e Usuario logado.
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+        Usuario usuarioLogado = usuarioRepository.findByEmail(loginUsuario);
+    	List<Anuncio> listaAtual = usuarioLogado.getAnuncios();
+    	listaAtual.add(anuncio);
+    	usuarioLogado.setAnuncios(listaAtual);
+    	usuarioService.update(usuarioLogado);
+    	
         return anuncioRepository.save(anuncio);
     }
-
-    //TODO documentar alteraçao de nome de método
     
     @Override
     public Optional<Anuncio> getAnuncioById(Long id) {
@@ -77,7 +94,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     @Override
     public boolean updateAnuncio(Anuncio anuncio) {
         /*a atualizacao do anuncio eh feita apenas se o anuncio ja existir*/
-        if (anuncioRepository.exists(anuncio.get_id())) {
+        if (anuncioRepository.exists(anuncio.getId())) {
             anuncioRepository.save(anuncio);
             return true;
         }

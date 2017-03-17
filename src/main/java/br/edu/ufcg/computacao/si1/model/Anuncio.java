@@ -18,23 +18,15 @@ public class Anuncio {
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "_id", nullable = false, unique = true)
-    private Long _id;
+	@GeneratedValue(generator="STORE_SEQ")
+	@SequenceGenerator(name="STORE_SEQ",sequenceName="STORE_SEQ", allocationSize=1)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long id;
 
-    @Column(name = "titulo", nullable = false)
     private String titulo;
-
-    @Column(name = "data_criacao", nullable = false)
     private Date dataDeCriacao;
-
-    @Column(name = "preco", nullable = false)
     private double preco;
-
-    @Column(name = "nota")
     private String nota;
-
-    @Column(name = "tipo", nullable = false)
     private String tipo;
 
     public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo) {
@@ -58,15 +50,15 @@ public class Anuncio {
      * Retorna o id do anuncio
      * @return o id do anuncio
      */
-    public Long get_id() {
-        return _id;
+    public Long getId() {
+        return id;
     }
 
     /**
      * Modifica o id do anuncio
      * @param _id id a ser colocado no anuncio
-     */public void set_id(Long _id) {
-        this._id = _id;
+     */public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -77,8 +69,8 @@ public class Anuncio {
         this.titulo = titulo;
     }
 
-    public String getDataDeCriacao() {
-        return DATE_FORMAT.format(dataDeCriacao);
+    public Date getDataDeCriacao() {
+        return dataDeCriacao;
     }
 
     public void setDataDeCriacao(Date dataDeCriacao) {
@@ -117,7 +109,7 @@ public class Anuncio {
         Anuncio anuncio = (Anuncio) o;
 
         if (Double.compare(anuncio.getPreco(), getPreco()) != 0) return false;
-        if (!get_id().equals(anuncio.get_id())) return false;
+        if (!getId().equals(anuncio.getId())) return false;
         if (!getTitulo().equals(anuncio.getTitulo())) return false;
         if (!getDataDeCriacao().equals(anuncio.getDataDeCriacao())) return false;
         if (getNota() != null ? !getNota().equals(anuncio.getNota()) : anuncio.getNota() != null) return false;
@@ -129,7 +121,7 @@ public class Anuncio {
     public int hashCode() {
         int result;
         long temp;
-        result = get_id().hashCode();
+        result = getId().hashCode();
         result = 31 * result + getTitulo().hashCode();
         result = 31 * result + getDataDeCriacao().hashCode();
         temp = Double.doubleToLongBits(getPreco());
@@ -142,9 +134,9 @@ public class Anuncio {
     @Override
     public String toString() {
         return "Anuncio{" +
-                "_id=" + _id +
+                "_id=" + id +
                 ", titulo='" + titulo + '\'' +
-                ", dataDeCriacao=" + getDataDeCriacao() +
+                ", dataDeCriacao=" + DATE_FORMAT.format(getDataDeCriacao()) +
                 ", preco=" + preco +
                 ", nota=" + nota +
                 ", tipo='" + tipo + '\'' +

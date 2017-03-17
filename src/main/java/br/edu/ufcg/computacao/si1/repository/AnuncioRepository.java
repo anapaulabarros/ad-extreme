@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
-
+	
 	@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.dataDeCriacao = (:data_criacao)")
 	List<Anuncio> findBydataDeCriacao(@Param("data_criacao") Date data_criacao);
 }

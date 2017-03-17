@@ -25,7 +25,5 @@ public interface UsuarioService {
     float getSaldoDisponivel(String email);
     Usuario getUserById(Long id);
 
-	Collection<Anuncio> getAnuncios(Long userId);
-	
-	void addAnuncioNaLista(Long userId, Anuncio anuncio);
+	List<Anuncio> getAnuncios(Long userId);
 }
