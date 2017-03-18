@@ -2,6 +2,15 @@
  *
  */
 $(document).ready(function(){
+	
+	$("#tipoAnuncio").change(function(){          
+	    var valor = $("#tipoAnuncio option:selected").val();
+	    if(valor === 'outro'){
+	    	$("#input-tipo").slideDown().removeClass("hidden-input");
+		    $("#tipoAnuncio option:selected").attr('disabled','disabled');
+	    }
+	});
+
 	//setInputSearchAdvertisement();
 });
 

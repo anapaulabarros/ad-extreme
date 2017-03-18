@@ -47,14 +47,16 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Tipo</label>
                         <div class="col-md-4">
-                            <div class="radio" th:if="${anuncioForm.tipos != null}">
-                                <th:block th:object="${anuncioForm}">
-                                    <label for="radios-0" th:each="tipo : *{tipos}">
-                                        <input type="radio" name="tipo" id="radios-0" th:value="${tipo}"/>
-                                        <p th:text="${tipo}"></p>
-                                    </label>
-                                </th:block>
-                            </div>
+                            <div class="col-sm-12">
+						    	<select name="tipo" class="form-control" id="tipoAnuncio">
+								  	<option value="sem categoria">Selecione um tipo</option>
+									<option value="movel">M&oacute;vel</option>
+									<option value="imovel">Im&oacute;vel</option>
+									<option value="emprego">Emprego</option>
+									<option value="outro">Outro servi&ccedil;o</option>
+								</select>
+								<input type="text" name="tipo" class="form-control hidden-input" placeholder="Insira um servi&ccedil;o" id="input-tipo" />
+						    </div>
                         </div>
                     </div>
                     <!-- Button (Double) -->

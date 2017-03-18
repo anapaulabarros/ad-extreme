@@ -22,7 +22,7 @@ import static junit.framework.TestCase.*;
 @SpringBootTest
 public class AnuncioServiceTest {
 
-    @Autowired
+   /* @Autowired
     private AnuncioService anuncioService;
 
     @Autowired
@@ -212,5 +212,6 @@ public class AnuncioServiceTest {
         assertEquals(Notas.notas[4], anuncioService.getAnuncioById(anuncioImovel.getId()).get().getNota());
         assertEquals(Notas.notas[4], anuncioService.getAnuncioById(anuncioEmprego.getId()).get().getNota());
     }
+    */
 
 }

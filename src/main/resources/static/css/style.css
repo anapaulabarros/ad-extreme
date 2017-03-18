@@ -38,3 +38,10 @@ body > .container {
 #datetimepicker1{
 	display:none;
 }
+
+.hidden-input {
+    display: none;
+}	
+#input-tipo{
+	margin-top:5px;
+}

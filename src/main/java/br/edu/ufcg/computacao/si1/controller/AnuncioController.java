@@ -93,16 +93,12 @@ public class AnuncioController {
             return getPageCadastrarAnuncio(anuncioForm);
         }
         
-        Anuncio anuncio = new Anuncio();
-        anuncio.setTitulo(anuncioForm.getTitulo());
-        anuncio.setPreco(anuncioForm.getPreco());
-        anuncio.setTipo(anuncioForm.getTipo());
-        
-        anuncioService.create(anuncio);
+        anuncioService.create(anuncioForm);
         
         attributes.addFlashAttribute(MENSAGEM, MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(REDIRECT + ROTA_USUARIO_CADASTRAR_ANUNCIO);
     }
+
 
 
 }
