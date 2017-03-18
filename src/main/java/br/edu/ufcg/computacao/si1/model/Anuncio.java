@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name="tb_anuncio")
 public class Anuncio {
 
-    private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
+    //private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
 
 
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -24,6 +24,8 @@ public class Anuncio {
     private Long id;
 
     private String titulo;
+    @Column(name = "dataDeCriacao", columnDefinition="TIMESTAMP(6)")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataDeCriacao;
     private double preco;
     private String nota;

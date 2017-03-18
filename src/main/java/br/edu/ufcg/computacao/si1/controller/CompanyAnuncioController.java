@@ -46,13 +46,14 @@ public class CompanyAnuncioController {
  
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
    	public String getPageListarMeusAnuncios(Model model){
-       	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+    	//Melhorar esse Desing - codigo repetido em vários trechos do projeto: pega o usuario logado
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
-       
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
-       
-   		model.addAttribute(Util.ANUNCIOS, usuarioService.getAnuncios(usuarioLogado.getId()));
+        
+		model.addAttribute(Util.LISTA_ANUCIOS,  usuarioLogado.getAnuncios());
    		return Util.USER_LISTAR_MEUS_ANUNCIOS;
+
    	}
     
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_ANUNCIOS, method = RequestMethod.GET)
@@ -71,19 +72,8 @@ public class CompanyAnuncioController {
         if(result.hasErrors()){
             return getPageCadastarAnuncio(anuncioForm);
         }
-        
-        Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        Usuario usuario = usuarioRep.findByEmail(user.getName());
-        
 
-        Anuncio anuncio = new Anuncio();
-        anuncio.setTitulo(anuncioForm.getTitulo());
-        anuncio.setPreco(anuncioForm.getPreco());
-        anuncio.setTipo(anuncioForm.getTipo());
-
-        anuncioService.create(anuncio);
-        
-       // usuarioService.addAnuncioNaLista(usuario, anuncio);
+        anuncioService.create(anuncioForm);
 
         attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(Util.REDIRECT + Util.ROTA_COMPANY_CADASTRAR_ANUNCIO);

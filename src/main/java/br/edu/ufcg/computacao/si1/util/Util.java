@@ -21,6 +21,7 @@ public class Util {
 	public static final String SALDO_CREDOR = "saldoCredor";
 	public static final String SALDO_DISPONIVEL = "saldoDisponivel";
 	public static final String ANUNCIO_LISTA_FILTRO = "anunciolistaFiltro";
+	public static final String LISTA_ANUCIOS = "listaAnuncios";
 	
 	public static final String INDEX = "index";
 	public static final String LOGIN = "login";

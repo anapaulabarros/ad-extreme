@@ -2,6 +2,7 @@ package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 
@@ -42,8 +43,12 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
-    public Anuncio create(Anuncio anuncio) {
-        /*aqui salvamos o anuncio recem criado no repositorio jpa*/
+    public Anuncio create(AnuncioForm anuncioForm) {
+
+    	Anuncio anuncio = new Anuncio();
+        anuncio.setTitulo(anuncioForm.getTitulo());
+        anuncio.setPreco(anuncioForm.getPreco());
+        anuncio.setTipo(removeUltimoCatectere(anuncioForm.getTipo()));
     	
     	//Melhorar esse Desing - aqui ele atualiza a lista de anuncios do usuario e estabelece a relacao entre Anuncio e Usuario logado.
     	Authentication user = SecurityContextHolder.getContext().getAuthentication();
@@ -53,6 +58,9 @@ public class AnuncioServiceImpl implements AnuncioService {
     	listaAtual.add(anuncio);
     	usuarioLogado.setAnuncios(listaAtual);
     	usuarioService.update(usuarioLogado);
+    	
+    	
+    	
     	
         return anuncioRepository.save(anuncio);
     }
@@ -121,4 +129,10 @@ public class AnuncioServiceImpl implements AnuncioService {
 		return listaAnuncios;
 	}
     
+	
+	private String removeUltimoCatectere(String palavra){
+		if(palavra.contains(","))
+			palavra = palavra.substring(0,palavra.length()-1);
+		return palavra;
+	}
 }
