@@ -2,26 +2,24 @@ package br.edu.ufcg.computacao.si1.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import br.edu.ufcg.computacao.si1.util.*;
 
 @Controller
 public class ErrorPagesController {
-	private static final String ERROR = "error";
-	private static final String QUINHENTOS = "/500";
-	private static final String QUATROCENTO_TRES = "/403";
-	private static final String QUATROCENTO_QUATRO = "/404";
 
-    @RequestMapping(QUATROCENTO_QUATRO)
+
+    @RequestMapping(Util.QUATROCENTO_QUATRO)
     public String notFound() {
-        return ERROR + QUATROCENTO_QUATRO;
+        return Util.ERROR + Util.QUATROCENTO_QUATRO;
     }
 
-    @RequestMapping(QUATROCENTO_TRES)
+    @RequestMapping(Util.QUATROCENTO_TRES)
     public String forbidden() {
-        return ERROR + QUATROCENTO_TRES;
+        return Util.ERROR + Util.QUATROCENTO_TRES;
     }
 
-    @RequestMapping(QUINHENTOS)
+    @RequestMapping(Util.QUINHENTOS)
     public String internalServerError() {
-        return ERROR + QUINHENTOS;
+        return Util.ERROR + Util.QUINHENTOS;
     }
 }

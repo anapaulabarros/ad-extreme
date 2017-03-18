@@ -7,15 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import br.edu.ufcg.computacao.si1.util.*;
+
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
 
         return (container -> {
-            ErrorPage error401Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403");
-            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
-            ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500");
+            ErrorPage error401Page = new ErrorPage(HttpStatus.FORBIDDEN, Util.QUATROCENTO_TRES);
+            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, Util.QUATROCENTO_QUATRO);
+            ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, Util.QUINHENTOS);
 
             container.addErrorPages(error401Page, error404Page, error500Page);
         });
@@ -23,8 +25,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/403").setViewName("error/403");
-        registry.addViewController("/404").setViewName("error/404");
-        registry.addViewController("/500").setViewName("error/500");
+        registry.addViewController(Util.QUATROCENTO_TRES).setViewName(Util.ERROR + Util.QUATROCENTO_TRES);
+        registry.addViewController(Util.QUATROCENTO_QUATRO).setViewName(Util.ERROR+ Util.QUATROCENTO_QUATRO);
+        registry.addViewController(Util.QUINHENTOS).setViewName(Util.ERROR + Util.QUINHENTOS);
     }
 }

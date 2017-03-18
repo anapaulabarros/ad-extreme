@@ -1,7 +1,5 @@
 package br.edu.ufcg.computacao.si1.controller;
 
-
-
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.ufcg.computacao.si1.service.AnuncioService;
 import br.edu.ufcg.computacao.si1.service.UsuarioService;
+import br.edu.ufcg.computacao.si1.util.*;
 
 @Controller
 public class WebPagesController {
@@ -29,59 +28,59 @@ public class WebPagesController {
 	AnuncioService anuncioService;
 	
 	
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = Util.ROOT, method = RequestMethod.GET)
     public ModelAndView getPageIndex(){
         ModelAndView model = new ModelAndView();
-        model.setViewName("index");
+        model.setViewName(Util.INDEX);
 
         return model;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = Util.ROTA_LOGIN, method = RequestMethod.GET)
     public ModelAndView getPageLogin(){
         ModelAndView model = new ModelAndView();
-        model.setViewName("login");
+        model.setViewName(Util.LOGIN);
 
         return model;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET) //exibe a view do usuario logado e informações de saldo (credor e disponível)
+    @RequestMapping(value = Util.ROTA_USER, method = RequestMethod.GET) //exibe a view do usuario logado e informações de saldo (credor e disponível)
     public String getPageIndexUser(Model model){
         
     	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
         
-        model.addAttribute("saldoCredor", usuarioService.getSaldoCredor(loginUsuario));
-        model.addAttribute("saldoDisponivel", usuarioService.getSaldoDisponivel(loginUsuario));
+        model.addAttribute(Util.SALDO_CREDOR, usuarioService.getSaldoCredor(loginUsuario));
+        model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldoDisponivel(loginUsuario));
         
-        return "user/index";
+        return Util.USER_INDEX;
     }
     
-    @RequestMapping(value = "/user", method = RequestMethod.POST) //Filtro de anuncios
+    @RequestMapping(value = Util.ROTA_USER, method = RequestMethod.POST) //Filtro de anuncios
     public String filtroAnuncio(@RequestParam int opcaoFiltro, @RequestParam String filtroAnuncio,Model model){
     	
     	if(opcaoFiltro == 0){
-    		model.addAttribute("anunciolistaFiltro", anuncioService.getAnunciosByType(filtroAnuncio.toLowerCase()));
+    		model.addAttribute(Util.ANUNCIO_LISTA_FILTRO, anuncioService.getAnunciosByType(filtroAnuncio.toLowerCase()));
     	}
     	if(opcaoFiltro == 1){
-    		SimpleDateFormat dataFormatada  = new SimpleDateFormat("yyyy-MM-dd");    		
+    		SimpleDateFormat dataFormatada  = new SimpleDateFormat(Util.DATA_FORMAT);    		
 			try {
 				Date dataFiltro = dataFormatada.parse(filtroAnuncio);
-				model.addAttribute("anunciolistaFiltro", anuncioService.findByDataDeCriacao(dataFiltro));
+				model.addAttribute(Util.ANUNCIO_LISTA_FILTRO, anuncioService.findByDataDeCriacao(dataFiltro));
 			} catch (ParseException e) {
-				System.out.println("Formato de data invalida. ERROR: " + e.getMessage());
+				System.out.println(Util.MENSAGEM_FORMATO_DATA_INVALIDO + e.getMessage());
 			}
 			
     		
     	}
-    	return "user/index";
+    	return Util.USER_INDEX;
     }
     
 
-    @RequestMapping(value = "/company", method = RequestMethod.GET)
+    @RequestMapping(value = Util.ROTA_COMPANY, method = RequestMethod.GET)
     public ModelAndView getPageIndexCompany(){
         ModelAndView model = new ModelAndView();
-        model.setViewName("company/index");
+        model.setViewName(Util.COMPANY_INDEX);
 
         return model;
     }
