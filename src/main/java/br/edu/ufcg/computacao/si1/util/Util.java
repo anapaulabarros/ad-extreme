@@ -18,7 +18,6 @@ public class Util {
 	public static final String MENSAGEM = "mensagem";
 	public static final String REDIRECT = "redirect:";
 	public static final String CADASTRO = "cadastro";
-	public static final String SALDO_CREDOR = "saldoCredor";
 	public static final String SALDO_DISPONIVEL = "saldoDisponivel";
 	public static final String ANUNCIO_LISTA_FILTRO = "anunciolistaFiltro";
 	public static final String LISTA_ANUCIOS = "listaAnuncios";

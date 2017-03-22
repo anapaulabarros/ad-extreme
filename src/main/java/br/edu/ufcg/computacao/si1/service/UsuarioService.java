@@ -21,8 +21,8 @@ public interface UsuarioService {
 
     boolean delete(Long id);
     
-    float getSaldoCredor(String email);
-    float getSaldoDisponivel(String email);
+    float getSaldo(String email);
+    
     Usuario getUserById(Long id);
 
 	List<Anuncio> getAnuncios(Long userId);

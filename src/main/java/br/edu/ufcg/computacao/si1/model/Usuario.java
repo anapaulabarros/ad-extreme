@@ -23,11 +23,8 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
     private String email;
     private String senha;
     private String role;
-    private float saldoDebito;
-    private float saldoCredito;
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Anuncio> anuncios;
-
+    private float saldo;
+    
 	public Usuario() {
         super("default", "default", AuthorityUtils.createAuthorityList("USER"));
     }
@@ -40,10 +37,7 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.email = email;
         this.senha = senha;
         this.role = role;
-        //inicialização do saldo credor e disponivel para compra
-        this.saldoDebito = 0;
-        this.saldoCredito = 100;
-        this.anuncios = new ArrayList<Anuncio>();
+        this.saldo = 100;
     }
 
     public Long getId() {
@@ -86,28 +80,11 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.role = r;
     }
 
-	public float getSaldoDebito() {
-		return saldoDebito;
+	public float getSaldo() {
+		return saldo;
 	}
 
-	public void setSaldoDebito(float saldoDebito) {
-		this.saldoDebito = saldoDebito;
+	public void setSaldo(float saldo) {
+		this.saldo = saldo;
 	}
-
-	public float getSaldoCredito() {
-		return saldoCredito;
-	}
-
-	public void setSaldoCredito(float saldoCredito) {
-		this.saldoCredito = saldoCredito;
-	}
-
-	public List<Anuncio> getAnuncios() {
-		return anuncios;
-	}
-	
-	public void setAnuncios(List<Anuncio> anuncios){
-		this.anuncios = anuncios;
-	}
-    
 }

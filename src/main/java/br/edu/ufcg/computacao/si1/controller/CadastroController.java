@@ -43,6 +43,4 @@ public class CadastroController {
         attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_USUARIO_CADASTRO_SUCESSO);
         return new ModelAndView(Util.REDIRECT + Util.ROTA_CADASTRO);
     }
-
-
 }

@@ -20,14 +20,16 @@
                     <th>Tipo</th>
                     <th>Postado</th>
                     <th align="right">Preço</th>
+                     <th align="right">-</th>
                 </tr>
 
                 <th:block th:each="item : ${anuncios}">
                     <tr>
                         <td th:text="${item.titulo}"></td>
                         <td th:text="${#strings.toUpperCase(item.tipo)}"> - </td>
-                        <td th:text="${#dates.format(item.dataDeCriacao, 'dd/MM/yyyy')}"> - </td>
+                        <td th:text="${#dates.format(item.dataCriacao, 'dd/MM/yyyy')}"> - </td>
                         <td align="center" th:text="${'R$ ' + #numbers.formatDecimal(item.preco, 0, 'COMMA', 2, 'POINT')}">0.00</td>
+                        <td> <a href="/user/comprar_anuncio/anuncio/@{item.id}">Comprar</a></td>
                     </tr>
                 </th:block>
             </table>

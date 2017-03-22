@@ -18,8 +18,6 @@ public interface AnuncioService {
     Optional<Anuncio> getAnuncioById(Long id);
 
     Collection<Anuncio> getAnunciosByType(String tipo);
-    
-    Collection<Anuncio> getAnunciosByIdUser(Long idUser);
 
     Collection<Anuncio> getAllAnuncios();
 
@@ -27,6 +25,5 @@ public interface AnuncioService {
 
     boolean deleteAnuncio(Long id);
     
-    List<Anuncio> findByDataDeCriacao(Date dataDeCriacao);
-
+    List<Anuncio> findByDataCriacao(Date dataDeCriacao);
 }

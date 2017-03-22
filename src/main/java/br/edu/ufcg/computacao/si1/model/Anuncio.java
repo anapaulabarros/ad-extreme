@@ -12,9 +12,6 @@ import java.util.Date;
 @Table(name="tb_anuncio")
 public class Anuncio {
 
-    //private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
-
-
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Id
@@ -24,25 +21,35 @@ public class Anuncio {
     private Long id;
 
     private String titulo;
-    @Column(name = "dataDeCriacao", columnDefinition="TIMESTAMP(6)")
+    @Column(name = "dataCriacao", columnDefinition="TIMESTAMP(6)")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataDeCriacao;
+    private Date dataCriacao;
     private double preco;
     private String nota;
     private String tipo;
+    private Long idUsuario;
 
-    public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo) {
+    public Anuncio(String titulo, Date dataCriacao, double preco, String nota, String tipo, Long idUsuario) {
     	this();
         this.titulo = titulo;
-        this.dataDeCriacao = dataDeCriacao;
+        this.dataCriacao = dataCriacao;
         this.preco = preco;
         this.nota = nota;
         this.tipo = tipo;
+        this.idUsuario = idUsuario;
     }
 
-    public Anuncio() {
+    public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public Anuncio() {
         titulo = "";
-        dataDeCriacao = new Date();
+        dataCriacao = new Date();
         preco = 0;
         nota = "";
         tipo = "";
@@ -71,12 +78,12 @@ public class Anuncio {
         this.titulo = titulo;
     }
 
-    public Date getDataDeCriacao() {
-        return dataDeCriacao;
+    public Date getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setDataDeCriacao(Date dataDeCriacao) {
-        this.dataDeCriacao = dataDeCriacao;
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public double getPreco() {
@@ -113,7 +120,7 @@ public class Anuncio {
         if (Double.compare(anuncio.getPreco(), getPreco()) != 0) return false;
         if (!getId().equals(anuncio.getId())) return false;
         if (!getTitulo().equals(anuncio.getTitulo())) return false;
-        if (!getDataDeCriacao().equals(anuncio.getDataDeCriacao())) return false;
+        if (!getDataCriacao().equals(anuncio.getDataCriacao())) return false;
         if (getNota() != null ? !getNota().equals(anuncio.getNota()) : anuncio.getNota() != null) return false;
         return getTipo().equals(anuncio.getTipo());
 
@@ -125,7 +132,7 @@ public class Anuncio {
         long temp;
         result = getId().hashCode();
         result = 31 * result + getTitulo().hashCode();
-        result = 31 * result + getDataDeCriacao().hashCode();
+        result = 31 * result + getDataCriacao().hashCode();
         temp = Double.doubleToLongBits(getPreco());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (getNota() != null ? getNota().hashCode() : 0);
@@ -138,7 +145,7 @@ public class Anuncio {
         return "Anuncio{" +
                 "_id=" + id +
                 ", titulo='" + titulo + '\'' +
-                ", dataDeCriacao=" + DATE_FORMAT.format(getDataDeCriacao()) +
+                ", dataCriacao=" + DATE_FORMAT.format(getDataCriacao()) +
                 ", preco=" + preco +
                 ", nota=" + nota +
                 ", tipo='" + tipo + '\'' +

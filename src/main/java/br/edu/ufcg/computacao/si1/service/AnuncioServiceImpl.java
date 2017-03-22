@@ -49,59 +49,37 @@ public class AnuncioServiceImpl implements AnuncioService {
         anuncio.setTitulo(anuncioForm.getTitulo());
         anuncio.setPreco(anuncioForm.getPreco());
         anuncio.setTipo(removeUltimoCatectere(anuncioForm.getTipo()));
-    	
-    	//Melhorar esse Desing - aqui ele atualiza a lista de anuncios do usuario e estabelece a relacao entre Anuncio e Usuario logado.
+    	// TODO Melhorar esse Desing - aqui ele atualiza a lista de anuncios do usuario e estabelece a relacao entre Anuncio e Usuario logado.
     	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
         Usuario usuarioLogado = usuarioRepository.findByEmail(loginUsuario);
-    	List<Anuncio> listaAtual = usuarioLogado.getAnuncios();
-    	listaAtual.add(anuncio);
-    	usuarioLogado.setAnuncios(listaAtual);
+        
+    	anuncio.setIdUsuario(usuarioLogado.getId());
     	usuarioService.update(usuarioLogado);
-    	
-    	
-    	
-    	
+  
         return anuncioRepository.save(anuncio);
     }
     
     @Override
     public Optional<Anuncio> getAnuncioById(Long id) {
-        /*aqui recuperamos o anuncio pelo seu id*/
         return Optional.ofNullable(anuncioRepository.findOne(id));
     }
 
     @Override
     public Collection<Anuncio> getAnunciosByType(String tipo) {
-
-        /*pegamos aqui todos os anuncios, mas retornamos os anuncios por tipo
-        * filtrando o tipo, pelo equals, retornando um arrayLista*/
         return anuncioRepository.findAll().stream()
                 .filter(anuncio -> anuncio.getTipo().equals(tipo))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-         
-   @Override
-    public Collection<Anuncio> getAnunciosByIdUser(Long idUser) {
-
-        //pegamos aqui todos os anuncios que pertencem ao usuario logado,  retornando um arrayLista
-//        return anuncioRepository.findAll().stream()
-//                .filter(anuncio -> anuncio.getUserId().equals(idUser))
-//                .collect(Collectors.toCollection(ArrayList::new));
-	   return null;
-    }
     
     @Override
     public Collection<Anuncio> getAllAnuncios() {
-        /*aqui retornamos todos os anuncios, sem distincao*/
-
         return anuncioRepository.findAll();
     }
 
   
     @Override
     public boolean updateAnuncio(Anuncio anuncio) {
-        /*a atualizacao do anuncio eh feita apenas se o anuncio ja existir*/
         if (anuncioRepository.exists(anuncio.getId())) {
             anuncioRepository.save(anuncio);
             return true;
@@ -111,9 +89,6 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     @Override
     public boolean deleteAnuncio(Long id) {
-        /*aqui se apaga o anuncio se ele existir*/
-
-
         if (anuncioRepository.exists(id)) {
             anuncioRepository.delete(id);
             return true;
@@ -122,14 +97,12 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
 	@Override
-	public List<Anuncio> findByDataDeCriacao(Date dataDeCriacao) {
+	public List<Anuncio> findByDataCriacao(Date dataCriacao) {
 		List<Anuncio> listaAnuncios = new ArrayList();
-		//System.out.println(dataDeCriacao);
-		anuncioRepository.findBydataDeCriacao(dataDeCriacao).forEach(listaAnuncios::add);
+		anuncioRepository.findBydataCriacao(dataCriacao).forEach(listaAnuncios::add);
 		return listaAnuncios;
 	}
-    
-	
+    	
 	private String removeUltimoCatectere(String palavra){
 		if(palavra.contains(","))
 			palavra = palavra.substring(0,palavra.length()-1);

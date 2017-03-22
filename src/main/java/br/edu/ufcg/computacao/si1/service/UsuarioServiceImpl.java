@@ -31,6 +31,8 @@ public class UsuarioServiceImpl implements UsuarioService{
     private final String STATUS_RETORNADO_LOG = "estah sendo retornado";
     private final String STATUS_ATUALIZADO_LOG = "estah sendo atualizado";
     
+    private AnuncioRepository anuncioRepository;
+    
     @Autowired
     public void setUsuarioRepository(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -108,21 +110,15 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public float getSaldoCredor(String email) {
+	public float getSaldo(String email) {
 		Usuario usuarioLogado = usuarioRepository.findByEmail(email);
-		return usuarioLogado.getSaldoDebito();
-	}
-
-	@Override
-	public float getSaldoDisponivel(String email) {
-		Usuario usuarioLogado = usuarioRepository.findByEmail(email);
-		return usuarioLogado.getSaldoCredito();
+		return usuarioLogado.getSaldo();
 	}
 	
 	@Override
 	public List<Anuncio> getAnuncios(Long userId) {
 		List listaAnuncios = new ArrayList();
-		usuarioRepository.findByAnuncios(userId).forEach(listaAnuncios::add);
+		anuncioRepository.findByIdUsuario(userId).forEach(listaAnuncios::add);
 		return listaAnuncios;
 	}
 	

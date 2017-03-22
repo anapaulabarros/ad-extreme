@@ -66,9 +66,9 @@ public class AnuncioController {
         String loginUsuario = user.getName();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
-		model.addAttribute("listaAnuncios",  usuarioLogado.getAnuncios());
-		model.addAttribute("saldoCredor", usuarioService.getSaldoCredor(loginUsuario));
-	    model.addAttribute("saldoDisponivel", usuarioService.getSaldoDisponivel(loginUsuario));
+        // TODO Refatorar: buscas por Id
+        model.addAttribute("listaAnuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
+	    model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
 		return Util.USER_LISTAR_MEUS_ANUNCIOS;
 	}
     
@@ -83,7 +83,4 @@ public class AnuncioController {
         attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(Util.REDIRECT + Util.ROTA_USUARIO_CADASTRAR_ANUNCIO);
     }
-
-
-
 }

@@ -50,8 +50,7 @@ public class WebPagesController {
     	Authentication user = SecurityContextHolder.getContext().getAuthentication();
         String loginUsuario = user.getName();
         
-        model.addAttribute(Util.SALDO_CREDOR, usuarioService.getSaldoCredor(loginUsuario));
-        model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldoDisponivel(loginUsuario));
+        model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldo(loginUsuario));
         
         return Util.USER_INDEX;
     }
@@ -66,7 +65,7 @@ public class WebPagesController {
     		SimpleDateFormat dataFormatada  = new SimpleDateFormat(Util.DATA_FORMAT);    		
 			try {
 				Date dataFiltro = dataFormatada.parse(filtroAnuncio);
-				model.addAttribute(Util.ANUNCIO_LISTA_FILTRO, anuncioService.findByDataDeCriacao(dataFiltro));
+				model.addAttribute(Util.ANUNCIO_LISTA_FILTRO, anuncioService.findByDataCriacao(dataFiltro));
 			} catch (ParseException e) {
 				System.out.println(Util.MENSAGEM_FORMATO_DATA_INVALIDO + e.getMessage());
 			}
@@ -76,6 +75,8 @@ public class WebPagesController {
     	return Util.USER_INDEX;
     }
     
+    
+    // /user/comprar_anuncio/anuncio/@{item.id}
 
     @RequestMapping(value = Util.ROTA_COMPANY, method = RequestMethod.GET)
     public ModelAndView getPageIndexCompany(){

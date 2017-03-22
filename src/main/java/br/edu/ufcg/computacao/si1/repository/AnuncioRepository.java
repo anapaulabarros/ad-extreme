@@ -1,7 +1,9 @@
 package br.edu.ufcg.computacao.si1.repository;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.Usuario;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
 	
-	//@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.dataDeCriacao = (:data_criacao)")
-	List<Anuncio> findBydataDeCriacao(@DateTimeFormat(pattern = "yyyy-MM-dd")Date data_criacao);
+	//@Query("SELECT anuncio FROM Anuncio anuncio WHERE anuncio.dataCriacao = (:data_criacao)")
+	List<Anuncio> findBydataCriacao(@DateTimeFormat(pattern = "yyyy-MM-dd")Date data_criacao);
+
+	ArrayList<Anuncio> findByIdUsuario(Long userId);
 }
