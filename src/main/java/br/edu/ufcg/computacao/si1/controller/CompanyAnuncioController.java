@@ -51,20 +51,25 @@ public class CompanyAnuncioController {
         String loginUsuario = user.getName();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
-		model.addAttribute(Util.LISTA_ANUCIOS,  usuarioLogado.getAnuncios());
+        model.addAttribute("listaAnuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
    		return Util.USER_LISTAR_MEUS_ANUNCIOS;
 
    	}
     
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_ANUNCIOS, method = RequestMethod.GET)
-    public ModelAndView getPageListarAnuncios(){
-        ModelAndView model = new ModelAndView();
+    public String getPageListarAnuncios(Model model){
+    	
+    	//Melhorar esse Desing - codigo repetido em vários trechos do projeto: pega o usuario logado
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+        Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
+        
+        model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
+        model.addAttribute(Util.ANUNCIOS, anuncioService.getAnuncioRepository().findAll());
 
-        model.addObject(Util.ANUNCIOS, anuncioService.getAnuncioRepository().findAll());
+        
 
-        model.setViewName(Util.COMPANY_LISTAR_ANUNCIOS);
-
-        return model;
+        return Util.COMPANY_LISTAR_ANUNCIOS;
     }
 
     @RequestMapping(value = Util.ROTA_COMPANY_CADASTRAR_ANUNCIO, method = RequestMethod.POST)

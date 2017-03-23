@@ -26,4 +26,6 @@ public interface UsuarioService {
     Usuario getUserById(Long id);
 
 	List<Anuncio> getAnuncios(Long userId);
+
+	boolean realizaCompraVendaAnuncio(Long idAnuncio, Long id);
 }

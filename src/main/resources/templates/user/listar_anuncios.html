@@ -13,6 +13,13 @@
         <div th:if="${anuncios.isEmpty()}">
             <h4>Nenhum Anúncio listado</h4>
         </div>
+        
+        <div class="alert alert-info alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong><i class="fa fa-check" aria-hidden="true"></i></strong>
+            <span th:text="${mensagem}"></span>
+        </div>
+        
         <div th:if="${anuncios != null}" class="table-responsive">
             <table style="width:100%" class="table table-bordered">
                 <tr>
@@ -29,7 +36,7 @@
                         <td th:text="${#strings.toUpperCase(item.tipo)}"> - </td>
                         <td th:text="${#dates.format(item.dataCriacao, 'dd/MM/yyyy')}"> - </td>
                         <td align="center" th:text="${'R$ ' + #numbers.formatDecimal(item.preco, 0, 'COMMA', 2, 'POINT')}">0.00</td>
-                        <td> <a href="/user/comprar_anuncio/anuncio/@{item.id}">Comprar</a></td>
+                        <td><a th:href="@{'/user/listar/anuncios/' + ${item.id}}">Comprar</a></td>
                     </tr>
                 </th:block>
             </table>

@@ -22,7 +22,7 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService{
 
     private UsuarioRepository usuarioRepository;
-    private UsuarioServiceImpl usuarioService;
+   
     private final String USER = "USER";
     private final String COMPANY = "COMPANY";
     
@@ -30,7 +30,8 @@ public class UsuarioServiceImpl implements UsuarioService{
     private final String STATUS_CRIADO_LOG = "estah sendo criado";
     private final String STATUS_RETORNADO_LOG = "estah sendo retornado";
     private final String STATUS_ATUALIZADO_LOG = "estah sendo atualizado";
-    
+ 
+    @Autowired
     private AnuncioRepository anuncioRepository;
     
     @Autowired
@@ -115,11 +116,50 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioLogado.getSaldo();
 	}
 	
+	/*
+	 * Method: retorna apenas os anuncios do usuario logado
+	 * @param Long userId
+	 * @return ArrayList<Anuncio>
+	 */
 	@Override
 	public List<Anuncio> getAnuncios(Long userId) {
-		List listaAnuncios = new ArrayList();
-		anuncioRepository.findByIdUsuario(userId).forEach(listaAnuncios::add);
-		return listaAnuncios;
+		List listaAnunciosUsuarioLogado = new ArrayList();
+		ArrayList<Anuncio> listaAnunciosGeral = (ArrayList<Anuncio>) anuncioRepository.findAll();
+		
+		for (Anuncio anuncio : listaAnunciosGeral) {
+			if(anuncio.getIdUsuario() == userId)
+				listaAnunciosUsuarioLogado.add(anuncio);
+		}
+		
+		return listaAnunciosUsuarioLogado;
+	}
+
+	@Override
+	public boolean realizaCompraVendaAnuncio(Long idAnuncio, Long id) {
+		
+		Anuncio anuncio = anuncioRepository.findOne(idAnuncio);
+		Usuario usuarioLogado = usuarioRepository.findById(id);
+		Usuario donoAnuncio = usuarioRepository.findById(anuncio.getIdUsuario());
+		
+		if((anuncio.getIdUsuario() != id) && (usuarioLogado.getSaldo() >= anuncio.getPreco())){
+			
+			float novoSaldoComprador = (float) (usuarioLogado.getSaldo() - anuncio.getPreco());
+			usuarioLogado.setSaldo(novoSaldoComprador);
+			
+			usuarioRepository.save(usuarioLogado);
+			
+			float novoSaldoVendedor = (float) (donoAnuncio.getSaldo() + anuncio.getPreco());
+			donoAnuncio.setSaldo(novoSaldoVendedor);
+			
+			usuarioRepository.save(donoAnuncio);
+			
+			anuncio.setIdUsuario(usuarioLogado.getId());
+			anuncioRepository.save(anuncio);
+			
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	

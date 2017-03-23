@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,14 +50,17 @@ public class AnuncioController {
     }
 
     @RequestMapping(value = Util.ROTA_USUARIO_LISTAR_ANUNCIOS, method = RequestMethod.GET)
-    public ModelAndView getPageListarAnuncios(){
-        ModelAndView model = new ModelAndView();
+    public String getPageListarAnuncios(Model model){
+       
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+        Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
 
-        model.addObject(Util.ANUNCIOS, anuncioRep.findAll());
+        model.addAttribute(Util.ANUNCIOS, anuncioRep.findAll());
+        model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
+        
 
-        model.setViewName(Util.USER_LISTAR_ANUNCIOS);
-
-        return model;
+        return Util.USER_LISTAR_ANUNCIOS;
     }
  
     @RequestMapping(value = Util.ROTA_USUARIO_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
@@ -82,5 +86,49 @@ public class AnuncioController {
         
         attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(Util.REDIRECT + Util.ROTA_USUARIO_CADASTRAR_ANUNCIO);
+    }
+    
+    @RequestMapping(value = "/user/listar/anuncios/{id}", method = RequestMethod.GET)
+    public String compraVendeanuncio(@PathVariable Long id, Model model, RedirectAttributes attributes){
+    	
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+        Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
+        
+        
+        
+        boolean flagCompraVenda = false;
+        flagCompraVenda = usuarioService.realizaCompraVendaAnuncio(id, usuarioLogado.getId());
+        if(flagCompraVenda == true){
+    		
+    		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_SUCESSO );
+    	}else{
+    		
+    		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_INVALIDA );
+    	}
+    	
+    	return "redirect:/user/listar/anuncios";
+    }
+    
+    @RequestMapping(value = "/company/listar/anuncios/{id}", method = RequestMethod.GET)
+    public String compraVendeanuncioCompany(@PathVariable Long id, Model model, RedirectAttributes attributes){
+    	
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+        Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
+
+        
+        
+        boolean flagCompraVenda = false;
+        flagCompraVenda = usuarioService.realizaCompraVendaAnuncio(id, usuarioLogado.getId());
+        if(flagCompraVenda == true){
+    		
+    		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_SUCESSO );
+    	}else{
+    		
+    		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_INVALIDA );
+    	}
+    	
+    	return "redirect:/company/listar/anuncios";
     }
 }

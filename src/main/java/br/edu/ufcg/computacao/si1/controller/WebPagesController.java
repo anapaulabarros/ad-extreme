@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
+import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import br.edu.ufcg.computacao.si1.service.AnuncioService;
 import br.edu.ufcg.computacao.si1.service.UsuarioService;
 import br.edu.ufcg.computacao.si1.util.*;
@@ -26,6 +29,9 @@ public class WebPagesController {
 	UsuarioService usuarioService;
 	@Autowired
 	AnuncioService anuncioService;
+	
+	 @Autowired
+	 private UsuarioRepository usuarioRep;
 	
 	
     @RequestMapping(value = Util.ROOT, method = RequestMethod.GET)
@@ -75,14 +81,18 @@ public class WebPagesController {
     	return Util.USER_INDEX;
     }
     
-    
-    // /user/comprar_anuncio/anuncio/@{item.id}
 
     @RequestMapping(value = Util.ROTA_COMPANY, method = RequestMethod.GET)
-    public ModelAndView getPageIndexCompany(){
-        ModelAndView model = new ModelAndView();
-        model.setViewName(Util.COMPANY_INDEX);
+    public String getPageIndexCompany(Model model){
+        
 
-        return model;
+      //Melhorar esse Desing - codigo repetido em vários trechos do projeto: pega o usuario logado
+    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+        Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
+        
+        model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
+        return Util.COMPANY_INDEX;
     }
+        
 }

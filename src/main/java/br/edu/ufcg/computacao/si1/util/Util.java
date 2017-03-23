@@ -31,6 +31,8 @@ public class Util {
 	public static final String DATA_FORMAT = "yyyy-MM-dd";
 	
 	public static final String MENSAGEM_ANUNCIO_CADASTRO_SUCESSO = "Anúncio cadastrado com sucesso!";
+	public static final String MENSAGEM_COMPRA_SUCESSO = "Anúncio foi comprado com sucesso!";
+	public static final String MENSAGEM_COMPRA_INVALIDA = "ERRO: verifique se o anuncio pertence a outro usuario e/ou seu saldo!";
 	public static final String MENSAGEM_USUARIO_CADASTRO_SUCESSO = "Usuario cadastrado com sucesso!";
 	public static final String MENSAGEM_EMAIL_EM_USO= "Este email já esta em uso!";
 	public static final String MENSAGEM_FORMATO_DATA_INVALIDO = "Formato de data invalida. ERROR: ";
