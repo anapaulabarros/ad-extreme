@@ -15,6 +15,7 @@ public class Util {
 	private static final String ROTA_CADASTRAR_ANUNCIO = "/cadastrar/anuncio"; 
 	private static final String ROTA_LISTAR_ANUNCIOS = "/listar/anuncios"; 
 	private static final String ROTA_LISTAR_MEUS_ANUNCIOS = "/listar/meus-anuncios"; 
+	public static final String ROTA_ID = "/{id}";
 	
 	public static final String TIPOS = "tipos";
 	public static final String ANUNCIOS = "anuncios";
@@ -23,7 +24,7 @@ public class Util {
 	public static final String CADASTRO = "cadastro";
 	public static final String SALDO_DISPONIVEL = "saldoDisponivel";
 	public static final String ANUNCIO_LISTA_FILTRO = "anunciolistaFiltro";
-	public static final String LISTA_ANUCIOS = "listaAnuncios";
+	public static final String LISTA_ANUNCIOS = "listaAnuncios";
 	
 	public static final String INDEX = "index";
 	public static final String LOGIN = "login";
@@ -33,12 +34,12 @@ public class Util {
 	public static final String QUATROCENTO_QUATRO = "/404";
 	public static final String DATA_FORMAT = "yyyy-MM-dd";
 	
-	public static final String MENSAGEM_ANUNCIO_CADASTRO_SUCESSO = "Anúncio cadastrado com sucesso!";
-	public static final String MENSAGEM_COMPRA_SUCESSO = "Anúncio foi comprado com sucesso!";
-	public static final String MENSAGEM_COMPRA_INVALIDA = "ERRO: verifique se o anuncio pertence a outro usuario e/ou seu saldo!";
-	public static final String MENSAGEM_USUARIO_CADASTRO_SUCESSO = "Usuario cadastrado com sucesso!";
-	public static final String MENSAGEM_EMAIL_EM_USO= "Este email já esta em uso!";
-	public static final String MENSAGEM_FORMATO_DATA_INVALIDO = "Formato de data invalida. ERROR: ";
+	public static final String MENSAGEM_ANUNCIO_CADASTRO_SUCESSO = "Anúncio cadastrado.";
+	public static final String MENSAGEM_COMPRA_SUCESSO = "Anúncio comprado.";
+	public static final String MENSAGEM_COMPRA_INVALIDA = "Não foi possível comprar o anúncio. Verifique se a compra é possível de ser realizada.";
+	public static final String MENSAGEM_USUARIO_CADASTRO_SUCESSO = "Usuario cadastrado.";
+	public static final String MENSAGEM_EMAIL_EM_USO= "Este email já esta em uso.";
+	public static final String MENSAGEM_FORMATO_DATA_INVALIDO = "Formato de data invalida. ERRO: ";
 	
 
 	public static final String USER_CADASTRAR_ANUNCIO = USER + CADASTRAR_ANUNCIO;
@@ -65,14 +66,9 @@ public class Util {
 	public static final String ROTA_USUARIO_LISTAR_MEUS_ANUNCIOS = ROTA_USER + ROTA_LISTAR_MEUS_ANUNCIOS; 
 	public static final String ROTA_COMPANY_LISTAR_MEUS_ANUNCIOS = ROTA_COMPANY + ROTA_LISTAR_MEUS_ANUNCIOS; 
 
+	public static final String ROTA_USUARIO_LISTAR_ANUNCIOS_POR_ID = ROTA_USER + ROTA_LISTAR_ANUNCIOS + ROTA_ID;
+	public static final String ROTA_COMPANY_LISTAR_ANUNCIOS_POR_ID = ROTA_COMPANY + ROTA_LISTAR_ANUNCIOS + ROTA_ID;
+	
 	public static final String ROTA_CADASTRO = "/cadastrar-se";
-	public static final String ROTA_LOGIN = "/login";
-
-	
-	
- 
- 
-
-	
-	
+	public static final String ROTA_LOGIN = "/login";	
 }

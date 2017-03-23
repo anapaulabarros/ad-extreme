@@ -38,7 +38,6 @@ public class AnuncioController {
     @Autowired
 	UsuarioService usuarioService;
     
-    
     @RequestMapping(value = Util.ROTA_USUARIO_CADASTRAR_ANUNCIO, method = RequestMethod.GET)
     public ModelAndView getPageCadastrarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
@@ -51,13 +50,11 @@ public class AnuncioController {
 
     @RequestMapping(value = Util.ROTA_USUARIO_LISTAR_ANUNCIOS, method = RequestMethod.GET)
     public String getPageListarAnuncios(Model model){
-       
     	String loginUsuario = usuarioService.getLoginUsuarioLogado();
-
+    	
         model.addAttribute(Util.ANUNCIOS, anuncioRep.findAll());
-        model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
+        model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldo(loginUsuario));
         
-
         return Util.USER_LISTAR_ANUNCIOS;
     }
  
@@ -67,8 +64,10 @@ public class AnuncioController {
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
         // TODO Refatorar: buscas por Id
-        model.addAttribute("listaAnuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
-	    model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
+        
+        model.addAttribute(Util.LISTA_ANUNCIOS, usuarioService.getAnuncios(usuarioLogado.getId()));
+	    model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldo(loginUsuario));
+	    
 		return Util.USER_LISTAR_MEUS_ANUNCIOS;
 	}
     
@@ -84,45 +83,38 @@ public class AnuncioController {
         return new ModelAndView(Util.REDIRECT + Util.ROTA_USUARIO_CADASTRAR_ANUNCIO);
     }
     
-    @RequestMapping(value = "/user/listar/anuncios/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = Util.ROTA_USUARIO_LISTAR_ANUNCIOS_POR_ID, method = RequestMethod.GET)
     public String compraVendeanuncio(@PathVariable Long id, Model model, RedirectAttributes attributes){
-    	
     	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
+        boolean anuncioComprado = usuarioService.realizaCompraVendaAnuncio(id, usuarioLogado.getId());
         
-        
-        boolean flagCompraVenda = false;
-        flagCompraVenda = usuarioService.realizaCompraVendaAnuncio(id, usuarioLogado.getId());
-        if(flagCompraVenda == true){
-    		
-    		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_SUCESSO );
-    	}else{
-    		
-    		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_INVALIDA );
-    	}
+        addMensagemDeCompra(attributes, anuncioComprado);
     	
-    	return "redirect:/user/listar/anuncios";
+    	return Util.REDIRECT + Util.USER_LISTAR_ANUNCIOS;
     }
     
-    @RequestMapping(value = "/company/listar/anuncios/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_ANUNCIOS_POR_ID, method = RequestMethod.GET)
     public String compraVendeanuncioCompany(@PathVariable Long id, Model model, RedirectAttributes attributes){
-    	
     	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
+        
+        boolean anuncioComprado = usuarioService.realizaCompraVendaAnuncio(id, usuarioLogado.getId());
+        
+        addMensagemDeCompra(attributes, anuncioComprado);
+    	
+    	return Util.REDIRECT + Util.COMPANY_LISTAR_ANUNCIOS;
+    }
 
-        
-        
-        boolean flagCompraVenda = false;
-        flagCompraVenda = usuarioService.realizaCompraVendaAnuncio(id, usuarioLogado.getId());
-        if(flagCompraVenda == true){
-    		
+    // TODO: Onde que deveríamos colocar este método? 
+    
+	private void addMensagemDeCompra(RedirectAttributes attributes,
+			boolean anuncioComprado) {
+		if(anuncioComprado == true){
     		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_SUCESSO );
     	}else{
-    		
     		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_INVALIDA );
     	}
-    	
-    	return "redirect:/company/listar/anuncios";
-    }
+	}
 }
