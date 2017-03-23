@@ -28,4 +28,6 @@ public interface UsuarioService {
 	List<Anuncio> getAnuncios(Long userId);
 
 	boolean realizaCompraVendaAnuncio(Long idAnuncio, Long id);
+	
+	String getLoginUsuarioLogado();
 }

@@ -46,7 +46,7 @@ public class CompanyAnuncioController {
  
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
    	public String getPageListarMeusAnuncios(Model model){
-    	String loginUsuario = Util.getLoginUsuarioLogado();
+    	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
         model.addAttribute("listaAnuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
@@ -56,7 +56,7 @@ public class CompanyAnuncioController {
     
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_ANUNCIOS, method = RequestMethod.GET)
     public String getPageListarAnuncios(Model model){
-    	String loginUsuario = Util.getLoginUsuarioLogado();
+    	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         
         model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
         model.addAttribute(Util.ANUNCIOS, anuncioService.getAnuncioRepository().findAll());
