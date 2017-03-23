@@ -52,9 +52,7 @@ public class AnuncioController {
     @RequestMapping(value = Util.ROTA_USUARIO_LISTAR_ANUNCIOS, method = RequestMethod.GET)
     public String getPageListarAnuncios(Model model){
        
-    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        String loginUsuario = user.getName();
-        Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
+    	String loginUsuario = Util.getLoginUsuarioLogado();
 
         model.addAttribute(Util.ANUNCIOS, anuncioRep.findAll());
         model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
@@ -65,9 +63,7 @@ public class AnuncioController {
  
     @RequestMapping(value = Util.ROTA_USUARIO_LISTAR_MEUS_ANUNCIOS, method = RequestMethod.GET)
 	public String getPageListarMeusAnuncios(Model model){
-    	//Melhorar esse Desing - codigo repetido em vários trechos do projeto: pega o usuario logado
-    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        String loginUsuario = user.getName();
+    	String loginUsuario = Util.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
         // TODO Refatorar: buscas por Id
@@ -91,8 +87,7 @@ public class AnuncioController {
     @RequestMapping(value = "/user/listar/anuncios/{id}", method = RequestMethod.GET)
     public String compraVendeanuncio(@PathVariable Long id, Model model, RedirectAttributes attributes){
     	
-    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        String loginUsuario = user.getName();
+    	String loginUsuario = Util.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
         
@@ -113,8 +108,7 @@ public class AnuncioController {
     @RequestMapping(value = "/company/listar/anuncios/{id}", method = RequestMethod.GET)
     public String compraVendeanuncioCompany(@PathVariable Long id, Model model, RedirectAttributes attributes){
     	
-    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        String loginUsuario = user.getName();
+    	String loginUsuario = Util.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
 
         
