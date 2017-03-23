@@ -1,5 +1,8 @@
 package br.edu.ufcg.computacao.si1.util;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 public class Util {
 	public static final String ROOT = "/";
 	private static final String USER = "user";
@@ -65,7 +68,11 @@ public class Util {
 	public static final String ROTA_CADASTRO = "/cadastrar-se";
 	public static final String ROTA_LOGIN = "/login";
 
-	
+	public static String getLoginUsuarioLogado() {
+		Authentication user = SecurityContextHolder.getContext().getAuthentication();
+        String loginUsuario = user.getName();
+		return loginUsuario;
+	}
 
 	
  
