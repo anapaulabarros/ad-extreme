@@ -1,11 +1,13 @@
 package br.edu.ufcg.computacao.si1.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import org.springframework.security.core.authority.AuthorityUtils;
-
-import javax.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "Usuario")
 @Table(name = "tb_usuario")

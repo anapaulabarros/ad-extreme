@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
-import br.edu.ufcg.computacao.si1.util.*;
+import br.edu.ufcg.computacao.si1.util.Util;
 
 @Controller
 public class CadastroController {

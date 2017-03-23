@@ -1,17 +1,8 @@
 package br.edu.ufcg.computacao.si1.controller;
 
-import br.edu.ufcg.computacao.si1.model.Anuncio;
-import br.edu.ufcg.computacao.si1.model.Usuario;
-import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
-import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
-import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
-import br.edu.ufcg.computacao.si1.service.UsuarioService;
-import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
-import br.edu.ufcg.computacao.si1.util.*;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
+import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
+import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
+import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
+import br.edu.ufcg.computacao.si1.service.UsuarioService;
+import br.edu.ufcg.computacao.si1.util.Util;
 
 @Controller
 public class CompanyAnuncioController {
@@ -49,19 +45,17 @@ public class CompanyAnuncioController {
     	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
-        model.addAttribute("listaAnuncios", usuarioService.getAnuncios(usuarioLogado.getId()));
+        model.addAttribute(Util.LISTA_ANUNCIOS, usuarioService.getAnuncios(usuarioLogado.getId()));
+        
    		return Util.USER_LISTAR_MEUS_ANUNCIOS;
-
    	}
     
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_ANUNCIOS, method = RequestMethod.GET)
     public String getPageListarAnuncios(Model model){
     	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         
-        model.addAttribute("saldoDisponivel", usuarioService.getSaldo(loginUsuario));
+        model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldo(loginUsuario));
         model.addAttribute(Util.ANUNCIOS, anuncioService.getAnuncioRepository().findAll());
-
-        
 
         return Util.COMPANY_LISTAR_ANUNCIOS;
     }
@@ -77,6 +71,4 @@ public class CompanyAnuncioController {
         attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_ANUNCIO_CADASTRO_SUCESSO);
         return new ModelAndView(Util.REDIRECT + Util.ROTA_COMPANY_CADASTRAR_ANUNCIO);
     }
-
-
 }

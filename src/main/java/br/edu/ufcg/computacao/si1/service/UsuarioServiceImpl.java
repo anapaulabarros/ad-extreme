@@ -1,38 +1,33 @@
 package br.edu.ufcg.computacao.si1.service;
 
-import br.edu.ufcg.computacao.si1.model.Usuario;
-import br.edu.ufcg.computacao.si1.model.Anuncio;
-import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
-import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
-import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.w3c.dom.ls.LSInput;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class UsuarioServiceImpl implements UsuarioService{
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
+import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
+import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
+import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
+import br.edu.ufcg.computacao.si1.util.*;
+
+@Service
+public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioRepository usuarioRepository;
    
     private final String USER = "USER";
     private final String COMPANY = "COMPANY";
     
     protected Log logger = LogFactory.getLog(this.getClass());
-    private final String STATUS_CRIADO_LOG = "estah sendo criado";
-    private final String STATUS_RETORNADO_LOG = "estah sendo retornado";
-    private final String STATUS_ATUALIZADO_LOG = "estah sendo atualizado";
- 
+     
     @Autowired
     private AnuncioRepository anuncioRepository;
     
@@ -55,12 +50,11 @@ public class UsuarioServiceImpl implements UsuarioService{
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
                         usuarioForm.getSenha(), COMPANY);
 
-                //new BCryptPasswordEncoder().encode(usuarioForm.getSenha()), "COMPANY");
                 usuario.setRole(COMPANY);
                 break;
         }
 
-        logger.debug(usuario + STATUS_CRIADO_LOG);
+        logger.debug(usuario + Util.STATUS_CRIADO_LOG);
         return usuarioRepository.save(usuario);
     }
 
@@ -71,7 +65,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public Optional<Usuario> getByEmail(String email) {
-    	logger.debug(email + STATUS_RETORNADO_LOG);
+    	logger.debug(email + Util.STATUS_RETORNADO_LOG);
         return Optional.ofNullable(usuarioRepository.findByEmail(email));
     }
 
@@ -82,12 +76,13 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public boolean update(Usuario usuario) {
-    	logger.debug(usuario + STATUS_ATUALIZADO_LOG);
+    	logger.debug(usuario + Util.STATUS_ATUALIZADO_LOG);
   
         if (usuarioRepository.exists(usuario.getId())) {
             usuarioRepository.save(usuario);
             return true;
         }
+        
         return false;
     }
 
@@ -97,6 +92,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             usuarioRepository.delete(id);
             return true;
         }
+        
         return false;
     }
 
@@ -104,7 +100,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public Usuario getUserById(Long id) {
 		if(id == null){
-			throw new IllegalArgumentException("Id do usuario nao pode ser nula.");
+			throw new IllegalArgumentException(Util.MENSAGEM_ID_NULO);
 		}
 		else{
 			Usuario usuarioLogado = usuarioRepository.findOne(id);
@@ -125,7 +121,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	 */
 	@Override
 	public List<Anuncio> getAnuncios(Long userId) {
-		List listaAnunciosUsuarioLogado = new ArrayList();
+		List<Anuncio> listaAnunciosUsuarioLogado = new ArrayList<Anuncio>();
 		ArrayList<Anuncio> listaAnunciosGeral = (ArrayList<Anuncio>) anuncioRepository.findAll();
 		
 		for (Anuncio anuncio : listaAnunciosGeral) {
@@ -138,7 +134,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public boolean realizaCompraVendaAnuncio(Long idAnuncio, Long id) {
-		
 		Anuncio anuncio = anuncioRepository.findOne(idAnuncio);
 		Usuario usuarioLogado = usuarioRepository.findById(id);
 		Usuario donoAnuncio = usuarioRepository.findById(anuncio.getIdUsuario());
@@ -159,9 +154,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 			anuncioRepository.save(anuncio);
 			
 			return true;
-		}
-		else
+		} else {
 			return false;
+		}	
 	}
 	
 	@Override
@@ -170,6 +165,4 @@ public class UsuarioServiceImpl implements UsuarioService{
         String loginUsuario = user.getName();
 		return loginUsuario;
 	}
-
-	
 }

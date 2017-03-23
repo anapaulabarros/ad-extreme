@@ -2,7 +2,8 @@ package br.edu.ufcg.computacao.si1.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import br.edu.ufcg.computacao.si1.util.*;
+
+import br.edu.ufcg.computacao.si1.util.Util;
 
 @Controller
 public class ErrorPagesController {

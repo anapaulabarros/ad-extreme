@@ -33,7 +33,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException(String.format("User with email=%s was not found", email));
         }
-
     }
-
 }

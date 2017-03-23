@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import br.edu.ufcg.computacao.si1.util.*;
+
+import br.edu.ufcg.computacao.si1.util.Util;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {

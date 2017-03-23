@@ -1,21 +1,24 @@
 package br.edu.ufcg.computacao.si1.model.form;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.edu.ufcg.computacao.si1.util.*;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UsuarioForm {
-    @NotNull(message = "O nome não pode ser nulo.")
-    @NotEmpty(message = "O nome não pode ser vazio.")
-    @Size(min = 2, max = 100, message = "O nome deve ter entre 2 e 100 caracteres.")
+    @NotNull(message = Util.MENSAGEM_NOME_NULO)
+    @NotEmpty(message = Util.MENSAGEM_NOME_VAZIO)
+    @Size(min = 2, max = 100, message = Util.MENSAGEM_NOME_COMPRIMENTO)
     private String nome;
-    @NotEmpty(message = "O email não pode ser vazio.")
+    @NotEmpty(message = Util.MENSAGEM_EMAIL_VAZIO)
     @Email
     private String email;
-    @NotNull(message = "A senha não pode ser nula.")
+    @NotNull(message = Util.MENSAGEM_SENHA_NULA)
     @NotEmpty
-    @Size(min = 4, max = 16, message = "A senha deve ter entre 4 e 16 caracteres.")
+    @Size(min = 4, max = 16, message = Util.MENSAGEM_SENHA_COMPRIMENTO)
     private String senha;
     @NotNull
     private Integer role;

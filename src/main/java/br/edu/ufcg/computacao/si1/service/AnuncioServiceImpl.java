@@ -17,10 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-/**
- * Created by Marcus Oliveira on 28/12/16.
- */
+ 
 @Service
 public class AnuncioServiceImpl implements AnuncioService {
     //TODO add validity checks
@@ -34,7 +31,6 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     @Autowired
     public AnuncioServiceImpl(AnuncioRepository anuncioRepository) {
-        /*neste codigo apenas atribuimos o repositorio jpa ao atributo */
         this.anuncioRepository = anuncioRepository;
     }
 
@@ -44,7 +40,6 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     @Override
     public Anuncio create(AnuncioForm anuncioForm) {
-
     	Anuncio anuncio = new Anuncio();
         anuncio.setTitulo(anuncioForm.getTitulo());
         anuncio.setPreco(anuncioForm.getPreco());
@@ -77,7 +72,6 @@ public class AnuncioServiceImpl implements AnuncioService {
         return anuncioRepository.findAll();
     }
 
-  
     @Override
     public boolean updateAnuncio(Anuncio anuncio) {
         if (anuncioRepository.exists(anuncio.getId())) {
@@ -98,7 +92,7 @@ public class AnuncioServiceImpl implements AnuncioService {
 
 	@Override
 	public List<Anuncio> findByDataCriacao(Date dataCriacao) {
-		List<Anuncio> listaAnuncios = new ArrayList();
+		List<Anuncio> listaAnuncios = new ArrayList<Anuncio>();
 		anuncioRepository.findBydataCriacao(dataCriacao).forEach(listaAnuncios::add);
 		return listaAnuncios;
 	}
