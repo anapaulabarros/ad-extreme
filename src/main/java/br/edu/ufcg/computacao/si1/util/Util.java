@@ -68,12 +68,7 @@ public class Util {
 	public static final String ROTA_CADASTRO = "/cadastrar-se";
 	public static final String ROTA_LOGIN = "/login";
 
-	public static String getLoginUsuarioLogado() {
-		Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        String loginUsuario = user.getName();
-		return loginUsuario;
-	}
-
+	
 	
  
  
