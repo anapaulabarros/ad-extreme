@@ -5,6 +5,7 @@ import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
+import br.edu.ufcg.computacao.si1.util.Util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,13 +46,12 @@ public class AnuncioServiceImpl implements AnuncioService {
         anuncio.setTitulo(anuncioForm.getTitulo());
         anuncio.setPreco(anuncioForm.getPreco());
         anuncio.setTipo(removeUltimoCatectere(anuncioForm.getTipo()));
-    	// TODO Melhorar esse Desing - aqui ele atualiza a lista de anuncios do usuario e estabelece a relacao entre Anuncio e Usuario logado.
-    	Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        String loginUsuario = user.getName();
+        
+    	// Aqui cria-se a relacao de anuncio tem um dono, no casso o usuario logado da sessão atual
+        String loginUsuario = usuarioService.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRepository.findByEmail(loginUsuario);
         
     	anuncio.setIdUsuario(usuarioLogado.getId());
-    	usuarioService.update(usuarioLogado);
   
         return anuncioRepository.save(anuncio);
     }
@@ -92,8 +93,16 @@ public class AnuncioServiceImpl implements AnuncioService {
 
 	@Override
 	public List<Anuncio> findByDataCriacao(Date dataCriacao) {
+		ArrayList<Anuncio> listaAnunciosRepositorio = (ArrayList<Anuncio>) getAllAnuncios();
 		List<Anuncio> listaAnuncios = new ArrayList<Anuncio>();
-		anuncioRepository.findBydataCriacao(dataCriacao).forEach(listaAnuncios::add);
+		SimpleDateFormat dataFormatada  = new SimpleDateFormat(Util.DATA_FORMAT);
+		String dataDoFiltro = dataFormatada.format(dataCriacao);
+
+		for (Anuncio anuncio : listaAnunciosRepositorio) {
+			String dataAnuncioAtual = dataFormatada.format(anuncio.getDataCriacao());
+			if(dataAnuncioAtual.equals(dataDoFiltro))
+				listaAnuncios.add(anuncio);
+		}
 		return listaAnuncios;
 	}
     	

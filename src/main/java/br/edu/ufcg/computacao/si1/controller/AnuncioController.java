@@ -60,8 +60,6 @@ public class AnuncioController {
     	String loginUsuario = usuarioService.getLoginUsuarioLogado();
         Usuario usuarioLogado = usuarioRep.findByEmail(loginUsuario);
         
-        // TODO Refatorar: buscas por Id
-        
         model.addAttribute(Util.LISTA_ANUNCIOS, usuarioService.getAnuncios(usuarioLogado.getId()));
 	    model.addAttribute(Util.SALDO_DISPONIVEL, usuarioService.getSaldo(loginUsuario));
 	    
@@ -89,7 +87,7 @@ public class AnuncioController {
         
         addMensagemDeCompra(attributes, anuncioComprado);
     	
-    	return Util.REDIRECT + Util.USER_LISTAR_ANUNCIOS;
+    	return "redirect:/user/listar/anuncios";
     }
     
     @RequestMapping(value = Util.ROTA_COMPANY_LISTAR_ANUNCIOS_POR_ID, method = RequestMethod.GET)
@@ -101,13 +99,10 @@ public class AnuncioController {
         
         addMensagemDeCompra(attributes, anuncioComprado);
     	
-    	return Util.REDIRECT + Util.COMPANY_LISTAR_ANUNCIOS;
+    	return "redirect:/company/listar/anuncios";
     }
-
-    // TODO: Onde que deveríamos colocar este método? 
     
-	private void addMensagemDeCompra(RedirectAttributes attributes,
-			boolean anuncioComprado) {
+	private void addMensagemDeCompra(RedirectAttributes attributes, boolean anuncioComprado) {
 		if(anuncioComprado == true){
     		attributes.addFlashAttribute(Util.MENSAGEM, Util.MENSAGEM_COMPRA_SUCESSO );
     	}else{

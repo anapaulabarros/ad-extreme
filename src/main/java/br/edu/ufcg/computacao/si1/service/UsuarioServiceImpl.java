@@ -36,7 +36,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    //TODO criar usuario antes e depois setar o R
+    //TODO criar usuario antes e depois setar a Rule
     @Override
     public Usuario create(UsuarioForm usuarioForm) {
         Usuario usuario=null;
@@ -137,26 +137,36 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Anuncio anuncio = anuncioRepository.findOne(idAnuncio);
 		Usuario usuarioLogado = usuarioRepository.findById(id);
 		Usuario donoAnuncio = usuarioRepository.findById(anuncio.getIdUsuario());
+		boolean resultado = false;
 		
-		if((anuncio.getIdUsuario() != id) && (usuarioLogado.getSaldo() >= anuncio.getPreco())){
+		if((anuncio.getIdUsuario() != id)){
+			if(usuarioLogado.getSaldo() >= anuncio.getPreco()){
+				
+				//atualiza os saldos: comprador e vendedor
+				float novoSaldoComprador = (float) getNovoSaldo("SUB", anuncio, usuarioLogado);
+				usuarioLogado.setSaldo(novoSaldoComprador);
+				usuarioRepository.save(usuarioLogado);
+				
+				float novoSaldoVendedor = (float) getNovoSaldo("PLUS", anuncio, donoAnuncio);
+				donoAnuncio.setSaldo(novoSaldoVendedor);
+				usuarioRepository.save(donoAnuncio);
+				
+				//atualiza o novo dono do anuncio
+				anuncio.setIdUsuario(usuarioLogado.getId());
+				anuncioRepository.save(anuncio);
+				
+				resultado = true;
+			} 
 			
-			float novoSaldoComprador = (float) (usuarioLogado.getSaldo() - anuncio.getPreco());
-			usuarioLogado.setSaldo(novoSaldoComprador);
-			
-			usuarioRepository.save(usuarioLogado);
-			
-			float novoSaldoVendedor = (float) (donoAnuncio.getSaldo() + anuncio.getPreco());
-			donoAnuncio.setSaldo(novoSaldoVendedor);
-			
-			usuarioRepository.save(donoAnuncio);
-			
-			anuncio.setIdUsuario(usuarioLogado.getId());
-			anuncioRepository.save(anuncio);
-			
-			return true;
-		} else {
-			return false;
-		}	
+		}
+		return resultado;
+	}
+
+	private double getNovoSaldo(String opcaoOperacao, Anuncio anuncio, Usuario usuario) {
+		if(opcaoOperacao.equals("SUB"))
+			return usuario.getSaldo() - anuncio.getPreco();
+		else
+			return usuario.getSaldo() + anuncio.getPreco();
 	}
 	
 	@Override

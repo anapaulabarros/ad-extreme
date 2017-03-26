@@ -91,6 +91,6 @@ public class Util {
 	public static final String ROTA_CADASTRO = "/cadastrar-se";
 	public static final String ROTA_LOGIN = "/login";
 	
-	public static final int FILTRO_0 = 0;
-	public static final int FILTRO_1 = 1;
+	public static final int FILTRO_POR_TIPO = 0;
+	public static final int FILTRO_POR_DATA = 1;
 }

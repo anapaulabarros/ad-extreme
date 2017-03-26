@@ -115,7 +115,7 @@
 					<tr th:each="anuncio : ${anunciolistaFiltro}">
 						<td th:text="${anuncio.Id}"></td>
 						<td th:text="${anuncio.titulo}"></td>
-						<td th:text="${#dates.format(anuncio.dataDeCriacao, 'dd/MM/yyyy')}"></td>
+						<td th:text="${#dates.format(anuncio.dataCriacao, 'dd/MM/yyyy')}"></td>
 						<td th:text="${anuncio.preco}"></td>
 						<td th:text="${anuncio.nota}"></td>
 						<td th:text="${anuncio.tipo}"></td>
